@@ -3,7 +3,7 @@
 
 int count_ret(int * arr);
 void count_update(int * arr, int *count);
-int count_ret(int sz, int * arr);
+int count_ret_2(int sz, int * arr);
 
 int main()
 {
