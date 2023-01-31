@@ -50,7 +50,11 @@ void print_2D(int num_rows, int num_cols, int* arr2D[]){
 	for(c = 0; c < num_cols; c++){
 		printf("%8d|", c);
 	}
-	printf("\n-----------------------------------\n");
+	printf("\n-");
+	for(c = 0; c<= num_cols; c++){
+		printf("--------");
+	}
+	printf("\n");
 	for (r = 0; r<num_rows; r++){
 		for(c=0; c<num_cols; c++){
 			if(c == 0){
