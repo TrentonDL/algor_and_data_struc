@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "hw1_student.h"  // .h extenssion, not .c
 
 // You do not need to change this print_1D function. It is included here for 
