@@ -46,9 +46,20 @@ void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int*
 void print_2D(int num_rows, int num_cols, int* arr2D[]){	
 	int r,c;
 	printf("\n");
+	printf("   |");
+	for(c = 0; c < num_cols; c++){
+		printf("%8d|", c);
+	}
+	printf("\n-----------------------------------\n");
 	for (r = 0; r<num_rows; r++){
 		for(c=0; c<num_cols; c++){
-			printf("%8d,", arr2D[r][c]);
+			if(c == 0){
+				printf("  %d|", r);
+				printf("%8d|", arr2D[r][c]);
+			}
+			else{
+				printf("%8d|", arr2D[r][c]);
+			}
 		}
 		printf("\n");
 	}	
