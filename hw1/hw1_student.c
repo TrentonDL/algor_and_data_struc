@@ -25,14 +25,17 @@ int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
 
 
 void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int* arr_max){
+	*arr_min = -1 * (*arr_min);
+	
 	for(int i=0; i < num_rows; i++){
 		for(int j=0; j < num_cols; j++){
-			if(*arr2D[i][j] > *arr_max){
-				*arr_max = *arr2D[i][j];
+
+			if(arr2D[i][j] > *arr_max){
+				*arr_max = arr2D[i][j];
 			}
 			
-			if(*arr2D[i][j] < *arr_min){
-				*arr_min = *arr2D[i][j];
+			if(arr2D[i][j] < *arr_min ){
+				*arr_min = arr2D[i][j];
 			}
 		}
 	}
