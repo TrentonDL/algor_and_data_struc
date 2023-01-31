@@ -19,13 +19,23 @@ void print_1D(int sz, int * arr){
 		- NULL if all elements of arr are greater or equal to thres. In this case it does not allocate any memory, and sets content of sz_res to 0.
 */
 int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
-	// change code here to correct function implementation
+	
 	return NULL;
 }
 
 
 void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int* arr_max){
-	// write your code here
+	for(int i=0; i < num_rows; i++){
+		for(int j=0; j < num_cols; j++){
+			if(*arr2D[i][j] > *arr_max){
+				*arr_max = *arr2D[i][j];
+			}
+			
+			if(*arr2D[i][j] < *arr_min){
+				*arr_min = *arr2D[i][j];
+			}
+		}
+	}
 }
 
 
