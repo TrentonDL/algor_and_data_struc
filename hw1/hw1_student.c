@@ -19,13 +19,40 @@ void print_1D(int sz, int * arr){
 		- NULL if all elements of arr are greater or equal to thres. In this case it does not allocate any memory, and sets content of sz_res to 0.
 */
 int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
-	// change code here to correct function implementation
-	return NULL;
+	if(&sz_arr != NULL){
+		printf("%p\n", sz_res);
+		int num =0;
+		for(int i=0; i<sz_arr; i++){
+			printf("%d < %d?\n",arr[i], thresh);
+			if(arr[i] < thresh){
+				num++;
+				sz_res = calloc(num,sizeof(arr[i]));
+				sz_res[num] = arr[i];
+			}
+
+		}
+		print_1D(sz_arr,sz_res);
+	}
+	
+	return sz_res;
 }
 
 
 void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int* arr_max){
-	// write your code here
+	*arr_min = -1 * (*arr_min);
+	
+	for(int i=0; i < num_rows; i++){
+		for(int j=0; j < num_cols; j++){
+
+			if(arr2D[i][j] > *arr_max){
+				*arr_max = arr2D[i][j];
+			}
+			
+			if(arr2D[i][j] < *arr_min ){
+				*arr_min = arr2D[i][j];
+			}
+		}
+	}
 }
 
 
@@ -33,9 +60,24 @@ void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int*
 void print_2D(int num_rows, int num_cols, int* arr2D[]){	
 	int r,c;
 	printf("\n");
+	printf("   |");
+	for(c = 0; c < num_cols; c++){
+		printf("%8d|", c);
+	}
+	printf("\n-");
+	for(c = 0; c<= num_cols; c++){
+		printf("--------");
+	}
+	printf("\n");
 	for (r = 0; r<num_rows; r++){
 		for(c=0; c<num_cols; c++){
-			printf("%8d,", arr2D[r][c]);
+			if(c == 0){
+				printf("  %d|", r);
+				printf("%8d|", arr2D[r][c]);
+			}
+			else{
+				printf("%8d|", arr2D[r][c]);
+			}
 		}
 		printf("\n");
 	}	
