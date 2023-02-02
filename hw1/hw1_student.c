@@ -53,11 +53,13 @@ void update_min_max(int num_rows, int num_cols, int* arr2D[], int* arr_min, int*
 	
 	for(int i=0; i < num_rows; i++){
 		for(int j=0; j < num_cols; j++){
-
-			if(arr2D[i][j] > *arr_max){
+			if(i==0 && j==0){
 				*arr_max = arr2D[i][j];
 			}
-			
+			else if(arr2D[i][j] > *arr_max){
+				*arr_max = arr2D[i][j];
+			}
+
 			if(arr2D[i][j] < *arr_min ){
 				*arr_min = arr2D[i][j];
 			}
