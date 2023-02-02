@@ -22,16 +22,21 @@ int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
 	if(arr != NULL){
 		int num =1;
 		for(int i=0; i<sz_arr; i++){
-			printf("%d < %d?\n",arr[i], thresh);
 			if(arr[i] < thresh){
-				printf("yes\n");
-				sz_res = (int*)malloc(num * sizeof(int));
-				sz_res[num-1] = arr[i];
-				printf("%d\n", sz_res[num-1]);
 				num++;
 			}
 		}
-		print_1D(num-1,sz_res);
+		sz_res = (int*)malloc(num * sizeof(int));
+		int new_array_spot = 0;
+		for(int j=0; j<sz_arr; j++){
+			if(arr[j] < thresh){
+				printf("%d - arr[%d]", arr[j],j);
+				sz_res[new_array_spot] = arr[j];
+				printf("%d\n", sz_res[new_array_spot]);
+				new_array_spot++;
+			}
+		}
+		print_1D(num-1, sz_res);
 		return sz_res;
 	}
 	else{
