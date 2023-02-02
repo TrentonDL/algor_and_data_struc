@@ -37,7 +37,6 @@ int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
 				new_array_spot++;
 			}
 		}
-		//print_1D(num-1, new_arr);
 		return new_arr;
 	}
 	else{
