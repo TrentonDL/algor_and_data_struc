@@ -19,22 +19,24 @@ void print_1D(int sz, int * arr){
 		- NULL if all elements of arr are greater or equal to thres. In this case it does not allocate any memory, and sets content of sz_res to 0.
 */
 int* get_scores_below(int thresh, int sz_arr, int * arr, int* sz_res){
-	if(&sz_arr != NULL){
-		printf("%p\n", sz_res);
-		int num =0;
+	if(arr != NULL){
+		int num =1;
 		for(int i=0; i<sz_arr; i++){
 			printf("%d < %d?\n",arr[i], thresh);
 			if(arr[i] < thresh){
+				printf("yes\n");
+				sz_res = (int*)malloc(num * sizeof(int));
+				sz_res[num-1] = arr[i];
+				printf("%d\n", sz_res[num-1]);
 				num++;
-				sz_res = calloc(num,sizeof(arr[i]));
-				sz_res[num] = arr[i];
 			}
-
 		}
-		print_1D(sz_arr,sz_res);
+		print_1D(num-1,sz_res);
+		return sz_res;
 	}
-	
-	return sz_res;
+	else{
+		return sz_res = NULL;
+	}
 }
 
 
