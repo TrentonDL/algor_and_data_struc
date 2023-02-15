@@ -5,8 +5,11 @@
 void runtime_increment(int N);
 void runtime_print(int N);
 void runtime_print_long(int N, char* long_str);
+void runtime_pow(int N);
 
 int main(void){
+    clock_t start, end;
+    start = clock();
     int L = 1000, i;
     char str[L+1];
     /* even if str is not used in runtime_increment and runtime_print, keep it to make the comparison for runtime_print_long fair.  */
@@ -19,6 +22,10 @@ int main(void){
     //runtime_increment(300);
     //runtime_print(1000);
     //runtime_print_long(100, str);
+    //runtime_pow(30);
+    end = clock();
+    double duration = ((double)end - start)/CLOCKS_PER_SEC;
+    printf("Time to execute: %f (secs)\n", duration);
  }
 void runtime_increment(int N){
     clock_t start, end;
@@ -48,8 +55,7 @@ void runtime_print(int N){
 }
 
 void runtime_print_long(int N, char* long_str){
-    clock_t start, end;
-    start = clock();
+
     
     int i, k, t;
     for(i = 1; i <= N; i=i+1)
@@ -57,9 +63,7 @@ void runtime_print_long(int N, char* long_str){
             for(t = 1; t <= N; t++)
                 printf("%s\n", long_str);
     
-    end = clock();
-    double duration = ((double)end - start)/CLOCKS_PER_SEC;
-    printf("Time to execute: %f (secs)\n", duration);
+
 }
 
 void runtime_pow(int N){
