@@ -26,7 +26,8 @@ int main(void){
     end = clock();
     double duration = ((double)end - start)/CLOCKS_PER_SEC;
     printf("Time to execute: %f (secs)\n", duration);
- }
+}
+
 void runtime_increment(int N){
     clock_t start, end;
     start = clock();
@@ -40,6 +41,7 @@ void runtime_increment(int N){
     double duration = ((double)end - start)/CLOCKS_PER_SEC;
     printf("Time to execute: %f (secs)\n", duration);
 }
+
 void runtime_print(int N){
     clock_t start, end;
     start = clock();
