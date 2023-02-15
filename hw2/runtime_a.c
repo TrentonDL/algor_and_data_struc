@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
+
 void runtime_increment(int N);
 void runtime_print(int N);
 void runtime_print_long(int N, char* long_str);
@@ -16,7 +18,7 @@ int main(void){
     // call the functions here and record the time they take.
     //runtime_increment(300);
     //runtime_print(1000);
-    runtime_print_long(100, str);
+    //runtime_print_long(100, str);
  }
 void runtime_increment(int N){
     clock_t start, end;
@@ -58,4 +60,11 @@ void runtime_print_long(int N, char* long_str){
     end = clock();
     double duration = ((double)end - start)/CLOCKS_PER_SEC;
     printf("Time to execute: %f (secs)\n", duration);
+}
+
+void runtime_pow(int N){
+    int i, res = 0;
+    for(i = 1; i <= pow(2.0,(double)N); i=i+1){
+        res = res + 1;
+    }
 }
