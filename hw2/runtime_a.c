@@ -43,29 +43,19 @@ void runtime_increment(int N){
 }
 
 void runtime_print(int N){
-    clock_t start, end;
-    start = clock();
     int i, k, t;
     for(i = 1; i <= N; i=i+1)
         for(k = 1; k <= N; k++)
             for(t = 1; t <= N; t++)
                 printf("A");
-
-    end = clock();
-    double duration = ((double)end - start)/CLOCKS_PER_SEC;
-    printf("Time to execute: %f (secs)\n", duration);
 }
 
 void runtime_print_long(int N, char* long_str){
-
-    
     int i, k, t;
     for(i = 1; i <= N; i=i+1)
         for(k = 1; k <= N; k++)
             for(t = 1; t <= N; t++)
                 printf("%s\n", long_str);
-    
-
 }
 
 void runtime_pow(int N){
