@@ -1,6 +1,4 @@
-/* 
- * Updated 2/23/2023 - Alexandra Stefan
- */
+//      Trenton Laule 1001669855        //
 
 /* 
 compile with -g to collect debugging info needed for Valgrind ( -lm links the math library): 
@@ -47,9 +45,27 @@ void print_array(int arr[], int N){
 //-------------------------------------------------------------
 
 void run1(){
-	// Fill in your code here. You should not write everything in this function.  
-	// Write some helper functions to separate the work.	
-	printf("\n-------run1 - this is a place holder. You need to edit this function.------ \n");
+    FILE* fp = NULL;
+    char filename[51];
+    int arr[10000];
+    int N = 0;
+
+	printf("\nEnter the filename: ");
+    scanf("%s", filename);
+    fp = fopen(filename, "r");
+
+    if(fp == NULL){
+        printf("File could not be opened.\n");
+        return;
+    }
+
+    fscanf(fp, "%d ", &N);
+    for (int i = 0; i < N; i++)
+    {
+        fscanf(fp, "%d", &arr[i]);
+    }
+    print_array(arr, N);
+    
 }
 
 int main()
