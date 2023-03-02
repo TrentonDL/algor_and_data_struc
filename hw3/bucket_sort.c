@@ -70,7 +70,8 @@ void run1(){
     print_array(arr, N);
 
     bucket_sort(arr, N);
-    
+    printf("\n");
+    print_array(arr, N);
 }
 
 int main()
@@ -94,9 +95,23 @@ void bucket_sort(int * arr, int N){
     find_Max_Value(arr, N, &maxValue);
     int minValue = (__INT_MAX__);
     find_Min_Value(arr, N, &minValue);
+    int idx = 0;
+    nodePT B[N];
+    
+    for (int j = 0; j < N; j++)
+    {
+        B[j] = array_2_list(arr, N); 
+    }
+    
 
-    printf("Bucketsort: min = %d, max = %d, N = %d buckets\n", minValue, maxValue, N);
+    printf("Bucketsort: min = %d, max = %d, N = %d buckets", minValue, maxValue, N);
+    
+    for (int i = 0; i < N; i++)
+    {
+        idx = floor((N * (arr[i] - minValue))/(1+maxValue-minValue));
+        printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
 
+    }
 }
 
 void find_Max_Value(int * arr, int N, int * maxValue){
