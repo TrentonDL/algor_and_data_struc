@@ -33,8 +33,8 @@ nodePT insert_sorted(nodePT L, int elem);
 //  function to sort an array sing bucket sort. E.g.:
 void bucket_sort(int * arr, int N);
 
-int find_Max_Value(int * arr, int N);
-int find_Min_Value(int * arr, int N);
+void find_Max_Value(int * arr, int N, int * maxValue);
+void find_Min_Value(int * arr, int N, int * minValue);
 
 void print_array(int arr[], int N){
 	int j;
@@ -90,33 +90,28 @@ int main()
 }
 
 void bucket_sort(int * arr, int N){
-    int maxValue = find_Max_Value(arr, N);
-    int minValue = find_Min_Value(arr, N);
-
-    printf("\t Max = %d\t Min = %d\n", maxValue, minValue);
-
-
-}
-
-int find_Max_Value(int * arr, int N){
-    int maxValue = -(__INT_MAX__);
-
-    for(int i = 0; i < N; i++){
-        if(arr[i] > maxValue){
-            maxValue = arr[i];
-        }
-    }
-    return maxValue;
-}
-
-
-int find_Min_Value(int * arr, int N){
+    int maxValue =  -(__INT_MAX__);
+    find_Max_Value(arr, N, &maxValue);
     int minValue = (__INT_MAX__);
+    find_Min_Value(arr, N, &minValue);
 
+    printf("Bucketsort: min = %d, max = %d, N = %d buckets\n", minValue, maxValue, N);
+
+}
+
+void find_Max_Value(int * arr, int N, int * maxValue){
     for(int i = 0; i < N; i++){
-        if(arr[i] < minValue){
-            minValue = arr[i];
+        if(arr[i] > *maxValue){
+            *maxValue = arr[i];
         }
     }
-    return minValue;
+}
+
+
+void find_Min_Value(int * arr, int N, int * minValue){
+    for(int i = 0; i < N; i++){
+        if(arr[i] < *minValue){
+            *minValue = arr[i];
+        }
+    }
 }
