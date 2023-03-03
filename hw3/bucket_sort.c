@@ -17,6 +17,7 @@ run without Valgrind:
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
 
 #include "list.h"   // useful if you want to use functions from list.c
@@ -100,7 +101,8 @@ void bucket_sort(int * arr, int N){
     
     for (int j = 0; j < N; j++)
     {
-        B[j] = malloc(sizeof(nodePT));
+        B[j] = malloc(sizeof(nodePT)); //memset
+        memset(B[j], "\0", sizeof(nodePT));
     }
     
     printf("Bucketsort: min = %d, max = %d, N = %d buckets", minValue, maxValue, N);
@@ -129,22 +131,17 @@ void bucket_sort(int * arr, int N){
             else{
                 curr->data = arr[i];
             }
-            
-            print_list_horiz(B[idx]);
         }
         printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
     }
 
     for (int k = 0; k < N; k++)
     {   
-        //swap_2_after(B[k]);
-        nodePT curr = B[k];
-        if(curr->next != NULL){
-            while (curr->next->next != NULL)
-            {
-                curr = curr->next;
-            }
-            delete_node_after(curr);
+        if(B[k] != NULL){
+            // while (B[k]->next != NULL){
+            //     B[k]->data = B[k]->next->data;
+            //     B[k] = B[k]->next->next;
+            // }
         }
         else{
             B[k] = NULL;
