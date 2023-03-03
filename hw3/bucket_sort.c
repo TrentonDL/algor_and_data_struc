@@ -39,7 +39,10 @@ void find_Max_Value(int * arr, int N, int * maxValue);
 //function to find minimum value in given array
 void find_Min_Value(int * arr, int N, int * minValue);
 
+//function to shift the final list data over a node to display properly and discard any leftover nodes
 void reorder_buckets(nodePT bucket_array);
+
+void list_2_array(int *arr, int N, nodePT * bucket_array);
 
 void print_array(int arr[], int N){
 	int j;
@@ -105,12 +108,12 @@ void bucket_sort(int * arr, int N){
     
     for (int j = 0; j < N; j++)
     {
-        bucket_array[j] = malloc(sizeof(nodePT)); //memset
+        bucket_array[j] = malloc(sizeof(struct node)); //memset
         //memset(bucket_array[j], "\0", sizeof(nodePT));
         bucket_array[j]->next = NULL;
     }
     
-    printf("Bucketsort: min = %d, max = %d, N = %d buckets", minValue, maxValue, N);
+    printf("Bucketsort: min = %d, max = %d, N = %d buckets\n", minValue, maxValue, N);
     
     for (int i = 0; i < N; i++)
     {
@@ -137,14 +140,15 @@ void bucket_sort(int * arr, int N){
                 curr->data = arr[i];
             }
         }
-        printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
+        printf("arr[%d]=%5d, idx = %d\n", i,arr[i], idx);
     }
 
     for(int k = 0; k < N; k++){
+        printf("------ List at index %d :", k);
         reorder_buckets(bucket_array[k]);
     }
-    
-    
+
+    list_2_array(arr, N, bucket_array);
 }
 
 void find_Max_Value(int * arr, int N, int * maxValue){
@@ -180,4 +184,19 @@ void reorder_buckets(nodePT bucket_array){
         bucket_array = NULL;
     }
     print_list_horiz(bucket_array);
+}
+
+void list_2_array(int *arr, int N, nodePT * bucket_array){
+    int array_idx = 0;
+    for(int i = 0; i < N; i++){
+        nodePT curr = bucket_array[i];
+        
+        while (curr->next != NULL)
+        {
+            arr[array_idx] = curr->data;
+            printf("%d", arr[array_idx]);
+            curr = curr->next;
+        }
+    }
+    print_array(arr, N);
 }
