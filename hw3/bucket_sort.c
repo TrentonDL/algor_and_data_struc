@@ -97,47 +97,46 @@ void bucket_sort(int * arr, int N){
     find_Min_Value(arr, N, &minValue);
     int idx = 0;
     nodePT B[N];
-
-    for(int k = 0; k < N; k++){
-        B[k] = malloc(sizeof(struct node));
-        B[k]->next = NULL;
+    
+    for (int j = 0; j < N; j++)
+    {
+        B[j] = malloc(sizeof(nodePT));
     }
-
+    
     printf("Bucketsort: min = %d, max = %d, N = %d buckets", minValue, maxValue, N);
     
     for (int i = 0; i < N; i++)
     {
-        
         idx = floor((N * (arr[i] - minValue))/(1+maxValue-minValue));
-        if(B[idx]->next == NULL){
+        if(B[idx] == NULL){
             B[idx]->next = new_node(arr[i]);
         }
         else{
             nodePT curr = B[idx];
             nodePT prev = NULL;
-            /*while(curr->next != NULL && curr->data < arr[i]){
+            while(curr->next != NULL && curr->data < arr[i]){
                 prev = curr;
                 curr = curr->next;
-            }*/
+            }
+            
+            if(curr->next != NULL){
+                nodePT newNode = insert_node(B[idx], prev, curr);
+                newNode->data = arr[i];
+            }
+            else{
+                curr->data = arr[i];
+            }
 
-            curr->next = insert_node(B[idx], prev, curr);
-            //curr->data = arr[i];
-
-            print_list_horiz(B[idx]);
-            printf("Length of above List = %d\n", compute_length(B[idx]));
-            /*
+            print_list_horiz(B[idx]);0            
             if(curr->next == NULL){
                 curr->next = new_node(arr[i]);
             }
             else{
                 curr->next = insert_node(B[idx], prev, curr);
             }
-            */
         }
         printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
-
     }
-    
 }
 
 void find_Max_Value(int * arr, int N, int * maxValue){
