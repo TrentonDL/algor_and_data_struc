@@ -123,20 +123,35 @@ void bucket_sort(int * arr, int N){
                 nodePT newNode = insert_node(B[idx], prev, curr);
                 newNode->data = arr[i];
             }
-            else{
-                curr->data = arr[i];
-            }
-
-            print_list_horiz(B[idx]);0            
-            if(curr->next == NULL){
+            else if(curr->next == NULL){
                 curr->next = new_node(arr[i]);
             }
             else{
-                curr->next = insert_node(B[idx], prev, curr);
+                curr->data = arr[i];
             }
+            
+            print_list_horiz(B[idx]);
         }
         printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
     }
+
+    for (int k = 0; k < N; k++)
+    {   
+        //swap_2_after(B[k]);
+        nodePT curr = B[k];
+        if(curr->next != NULL){
+            while (curr->next->next != NULL)
+            {
+                curr = curr->next;
+            }
+            delete_node_after(curr);
+        }
+        else{
+            B[k] = NULL;
+        }
+        print_list_horiz(B[k]);
+    }
+    
 }
 
 void find_Max_Value(int * arr, int N, int * maxValue){
