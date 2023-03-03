@@ -101,6 +101,7 @@ int main()
 void bucket_sort(int * arr, int N){
     int maxValue =  -(__INT_MAX__);
     find_Max_Value(arr, N, &maxValue);
+    
     int minValue = (__INT_MAX__);
     find_Min_Value(arr, N, &minValue);
     int idx = 0;
@@ -117,17 +118,24 @@ void bucket_sort(int * arr, int N){
     
     for (int i = 0; i < N; i++)
     {
-        idx = floor((N * (arr[i] - minValue))/(1+maxValue-minValue));
+        printf("At index\n");
+        idx = (int)floor(((long)N * ((long) arr[i] - (long) minValue))/(1+(long)maxValue-(long)minValue));
+        printf("%d\n", idx);
+        printf("bucket_array[%d]->next = %p\n", idx, bucket_array[idx]->next);
         if(bucket_array[idx]->next == NULL){
             bucket_array[idx]->next = new_node(arr[i]);
         }
         else{
+            printf("IN the else\n");
             nodePT curr = bucket_array[idx];
+            printf("initilzed curr\n");
             nodePT prev = NULL;
+            printf("at while loop\n");
             while(curr->next != NULL && curr->data < arr[i]){
                 prev = curr;
                 curr = curr->next;
             }
+            printf("out of while\n");
             
             if(curr->next != NULL){
                 nodePT newNode = insert_node(bucket_array[idx], prev, curr);
@@ -139,12 +147,16 @@ void bucket_sort(int * arr, int N){
             else{
                 curr->data = arr[i];
             }
+            printf("passed if-elseif\n");
         }
         printf("arr[%d]=%5d, idx = %d\n", i,arr[i], idx);
-    }
 
+    }
+    printf("we made it this far\n");
     for(int k = 0; k < N; k++){
+        printf("get ready to reorder\n");
         printf("------ List at index %d :", k);
+
         reorder_buckets(bucket_array[k]);
     }
 
@@ -169,11 +181,14 @@ void find_Min_Value(int * arr, int N, int * minValue){
 }
 
 void reorder_buckets(nodePT bucket_array){
-
+    printf("\nin reorder func\n");
     nodePT curr = bucket_array;
     nodePT prev = NULL;
+    
     if(curr->next != NULL){
+        printf("in if\n");
         while (curr->next != NULL){
+            printf("while");
             curr->data = curr->next->data;
             prev = curr;
             curr = curr->next;
@@ -181,6 +196,7 @@ void reorder_buckets(nodePT bucket_array){
         delete_node_after(prev);
     }
     else{
+        printf("in else\n");
         bucket_array = NULL;
     }
     print_list_horiz(bucket_array);
