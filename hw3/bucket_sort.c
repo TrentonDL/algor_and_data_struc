@@ -34,8 +34,12 @@ nodePT insert_sorted(nodePT L, int elem);
 //  function to sort an array sing bucket sort. E.g.:
 void bucket_sort(int * arr, int N);
 
+//function to find max value in given array
 void find_Max_Value(int * arr, int N, int * maxValue);
+//function to find minimum value in given array
 void find_Min_Value(int * arr, int N, int * minValue);
+
+void reorder_buckets(nodePT bucket_array);
 
 void print_array(int arr[], int N){
 	int j;
@@ -97,12 +101,13 @@ void bucket_sort(int * arr, int N){
     int minValue = (__INT_MAX__);
     find_Min_Value(arr, N, &minValue);
     int idx = 0;
-    nodePT B[N];
+    nodePT bucket_array[N];
     
     for (int j = 0; j < N; j++)
     {
-        B[j] = malloc(sizeof(nodePT)); //memset
-        memset(B[j], "\0", sizeof(nodePT));
+        bucket_array[j] = malloc(sizeof(nodePT)); //memset
+        //memset(bucket_array[j], "\0", sizeof(nodePT));
+        bucket_array[j]->next = NULL;
     }
     
     printf("Bucketsort: min = %d, max = %d, N = %d buckets", minValue, maxValue, N);
@@ -110,11 +115,11 @@ void bucket_sort(int * arr, int N){
     for (int i = 0; i < N; i++)
     {
         idx = floor((N * (arr[i] - minValue))/(1+maxValue-minValue));
-        if(B[idx] == NULL){
-            B[idx]->next = new_node(arr[i]);
+        if(bucket_array[idx]->next == NULL){
+            bucket_array[idx]->next = new_node(arr[i]);
         }
         else{
-            nodePT curr = B[idx];
+            nodePT curr = bucket_array[idx];
             nodePT prev = NULL;
             while(curr->next != NULL && curr->data < arr[i]){
                 prev = curr;
@@ -122,7 +127,7 @@ void bucket_sort(int * arr, int N){
             }
             
             if(curr->next != NULL){
-                nodePT newNode = insert_node(B[idx], prev, curr);
+                nodePT newNode = insert_node(bucket_array[idx], prev, curr);
                 newNode->data = arr[i];
             }
             else if(curr->next == NULL){
@@ -135,19 +140,10 @@ void bucket_sort(int * arr, int N){
         printf("\narr[%d]=%5d, idx = %d", i,arr[i], idx);
     }
 
-    for (int k = 0; k < N; k++)
-    {   
-        if(B[k] != NULL){
-            // while (B[k]->next != NULL){
-            //     B[k]->data = B[k]->next->data;
-            //     B[k] = B[k]->next->next;
-            // }
-        }
-        else{
-            B[k] = NULL;
-        }
-        print_list_horiz(B[k]);
+    for(int k = 0; k < N; k++){
+        reorder_buckets(bucket_array[k]);
     }
+    
     
 }
 
@@ -166,4 +162,22 @@ void find_Min_Value(int * arr, int N, int * minValue){
             *minValue = arr[i];
         }
     }
+}
+
+void reorder_buckets(nodePT bucket_array){
+
+    nodePT curr = bucket_array;
+    nodePT prev = NULL;
+    if(curr->next != NULL){
+        while (curr->next != NULL){
+            curr->data = curr->next->data;
+            prev = curr;
+            curr = curr->next;
+        }
+        delete_node_after(prev);
+    }
+    else{
+        bucket_array = NULL;
+    }
+    print_list_horiz(bucket_array);
 }
