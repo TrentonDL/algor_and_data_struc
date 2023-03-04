@@ -72,6 +72,7 @@ void run1(){
     {
         fscanf(fp, "%d", &arr[i]);
     }
+    fclose(fp);
     print_array(arr, N);
 
     bucket_sort(arr, N);
@@ -165,7 +166,8 @@ void list_2_array(int *arr, int N, nodePT * bucket_array){
             curr = curr->next;
             array_idx++;
         }
+        destroy_list(bucket_array[i]);
     }
-    destroy_list(*bucket_array);
+    
     print_array(arr, N);
 }
