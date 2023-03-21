@@ -14,7 +14,7 @@ struct heap_struct make_heap_empty(int cap){
     struct heap_struct * heap;
     heap->capacity = cap;
     heap->N = 0;
-    heap->items = calloc(cap, sizeof(int));
+    heap->items = calloc(cap, sizeof(int *));
     heap->items = NULL;
 
     return *heap;
@@ -32,6 +32,8 @@ struct heap_struct make_heap(int N, int * arr){
 void destroy(struct heap_struct * heapP){
 	free(heapP->items);
     heapP->N = 0;
+    heapP->capacity = 0;
+    heapP->items = NULL;
 }
 
 void print_heap(struct heap_struct heapS){
@@ -91,21 +93,30 @@ void add(struct heap_struct * heapP, int new_item){
         printf("Heap full cannot add item\n");
     }
     else{
-        int idx = heapP->N;
-        printf("idx created\n");
-        heapP->items[idx] = new_item;
-        printf("item added to end of heap\n");
-        swim_up(idx, heapP->items);
+        int *arr = calloc(heapP->N + 1, sizeof(int));
+        arr = heapP->items;
+        arr[heapP->N] = new_item;
+        heapP->items = arr;
+        swim_up(heapP->N, heapP->items);
         heapP->N++;
     }
 }
 
 int peek(struct heap_struct heapS){
-	printf("\npeek placeholder, returns -1\n");
-	return -1;
+    int idxmv = 0;
+    for(int idx = 0; idx < heapS.N; idx++){
+        if(heapS.items[idx] > heapS.items[idxmv])
+            idxmv = idx;
+    }
+
+	return idxmv;
 }
 
 int poll(struct heap_struct * heapP){
-	printf("\npoll placeholder, returns -1\n");
-	return -1;
+	int mx = heapP->items[0];
+    heapP->items[0] = heapP->items[heapP->N];
+    heapP->N -= 1;
+    sink_down(0, heapP->N, heapP->items);
+
+	return mx;
 }
