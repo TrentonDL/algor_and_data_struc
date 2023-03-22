@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include "heap.h"
 
 int main(){
     FILE * fp = NULL;
@@ -22,19 +25,44 @@ int main(){
     }
 
     fscanf(fp, "%d", N);
+
+    struct struct_heap heap = make_heap_empty(N);
+
     int *val = calloc(N, sizeof(int));
     for(int i = 0; i < N; i++){
-        fscanf(fp, "%d", val[i]);
+        fscanf(fp, "%d", &val[i]);
     }
     
+    heap = make_heap(N, val);
+    free(val);
+
     fscanf(fp, "%d", P);
-    
-    fgets(fileline, sizeof(fileline)-1, fp);
-    
-    while(Token != "\n"){
-        Token = strtok(fileline, " ");
-        strcpy()
+
+    for(int j = 0; j < P; j++){
+        char operation[10];
+        fscanf(fp, "%s ", operation);
+        if(isdigit(operation[0])){
+            add(&heap, atoi(&operation));
+        }
+        else{
+            switch(operation[0]){
+                case '*':
+                    poll(&heap);
+                    break;
+                case 'P':
+                    peek(heap);
+                    break;
+                case 'p':
+                    peek(heap);
+                    break;
+                default
+                    printf("Invaild operation\n");
+                    break;
+            }
+        }
     }
-    strtok()
+    fclose(fp);
+
+    
     return 0;
 }

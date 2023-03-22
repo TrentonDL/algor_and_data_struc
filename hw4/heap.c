@@ -59,8 +59,8 @@ void swim_up(int idx, int * arr){
 }
 
 void sink_down(int i, int N, int * arr){
-	int left_idx = 2*i;
-    int right_idx = (2*i)+1;
+	int left_idx = (2*i)+1;
+    int right_idx = (2*i)+2;
     int idx_max_value = idx_of_max_value(arr, i, left_idx, right_idx, N);
 
     while((idx_max_value != i) && (idx_max_value<=N)){
@@ -68,8 +68,8 @@ void sink_down(int i, int N, int * arr){
         arr[i] = arr[idx_max_value];
         arr[idx_max_value] = temp;
         i = idx_max_value;
-        left_idx = 2*i;
-        right_idx = (2*i)+1;
+        left_idx = (2*i)+1;
+        right_idx = (2*i)+2;
         idx_max_value = idx_of_max_value(arr, i, left_idx, right_idx, N);
     }
 }
@@ -103,6 +103,7 @@ void add(struct heap_struct * heapP, int new_item){
         arr = heapP->items;
         arr[heapP->N] = new_item;
         heapP->items = arr;
+        //*(heapP->items + heapP->N) = new_item;
         swim_up(heapP->N, heapP->items);
         heapP->N += 1;
     }
