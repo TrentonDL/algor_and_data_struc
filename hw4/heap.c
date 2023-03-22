@@ -51,7 +51,7 @@ void print_heap(struct heap_struct heapS){
 }
 
 void swim_up(int idx, int * arr){
-	while((idx > 1) && (arr[idx] > arr[idx/2])){
+	while((idx > 0) && (arr[idx] > arr[idx/2])){
         int temp = arr[idx];
         arr[idx] = arr[idx/2];
         arr[idx/2] = temp;
@@ -90,15 +90,21 @@ int idx_of_max_value(int *arr, int p, int left, int right, int N){
 
 void add(struct heap_struct * heapP, int new_item){
 	if(heapP->capacity < heapP->N){
-        printf("Heap full cannot add item\n");
-    }
-    else{
-        int *arr = calloc(heapP->N + 1, sizeof(int));
+        int *arr = calloc(2 * (heapP->capacity), sizeof(int));
+        heapP->items = calloc(2 * (heapP->capacity), sizeof(int));
         arr = heapP->items;
         arr[heapP->N] = new_item;
         heapP->items = arr;
         swim_up(heapP->N, heapP->items);
-        heapP->N++;
+        heapP->N += 1;
+    }
+    else{
+        int *arr = calloc(heapP->capacity, sizeof(int));
+        arr = heapP->items;
+        arr[heapP->N] = new_item;
+        heapP->items = arr;
+        swim_up(heapP->N, heapP->items);
+        heapP->N += 1;
     }
 }
 
