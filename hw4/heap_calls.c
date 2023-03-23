@@ -25,11 +25,14 @@ int main()   {
 	printf("\nThis program will call the heap functions.\n ");   
    
 
-	N = 3;
+	N = 6;
 	int *arr = calloc(N, sizeof(int) );
 	arr[0] = 10;
 	arr[1] = 20;
 	arr[2] = 43;
+	arr[3] = 51;
+	arr[4] = 5;
+	arr[5] = 31;
 
 	heapS = make_heap(N, arr);         
 	print_heap(heapS);

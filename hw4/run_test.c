@@ -26,36 +26,41 @@ int main(){
 
     fscanf(fp, "%d", N);
 
-    struct struct_heap heap = make_heap_empty(N);
-
     int *val = calloc(N, sizeof(int));
     for(int i = 0; i < N; i++){
         fscanf(fp, "%d", &val[i]);
     }
     
-    heap = make_heap(N, val);
+    struct heap_struct heap = make_heap(N, val);
+
     free(val);
 
+    print_heap(heap);
+    
     fscanf(fp, "%d", P);
 
     for(int j = 0; j < P; j++){
         char operation[10];
         fscanf(fp, "%s ", operation);
         if(isdigit(operation[0])){
-            add(&heap, atoi(&operation));
+            add(&heap, atoi(operation));
+            print_heap(heap);
         }
         else{
             switch(operation[0]){
                 case '*':
                     poll(&heap);
+                    print_heap(heap);
                     break;
                 case 'P':
                     peek(heap);
+                    print_heap(heap);
                     break;
                 case 'p':
                     peek(heap);
+                    print_heap(heap);
                     break;
-                default
+                default:
                     printf("Invaild operation\n");
                     break;
             }
@@ -63,6 +68,7 @@ int main(){
     }
     fclose(fp);
 
+    destroy(&heap);
     
     return 0;
 }

@@ -22,12 +22,29 @@ struct heap_struct make_heap_empty(int cap){
 
 struct heap_struct make_heap(int N, int * arr){
     struct heap_struct heap;
-    heap.capacity = sizeof(*arr) - 1;
+    heap.capacity = N;
     heap.N = N;
     heap.items = arr;
     
+    for(int i = N/2 - 1; i >= 0; i--){
+        if(DEBUG == 1){
+            //printf("sorting heap currently at index %d\n", i);
+            print_heap(heap);
+        }
+        sink_down(i, N, arr);
+    }
+
+    for (int i = N -1; i >= 0; i--) {
+        //printf("secondary sorting currently at index %d\n", i);
+        int temp = arr[i];
+        arr[i] = arr[0];
+        arr[0] = temp;
+        sink_down(0, i, arr);
+    }
+
     return heap;
 }
+
 
 void destroy(struct heap_struct * heapP){
 	free(heapP->items);
@@ -47,29 +64,31 @@ void print_heap(struct heap_struct heapS){
     for(int i = 0; i < heapS.N; i++){
         printf("%6d,", heapS.items[i]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 void swim_up(int idx, int * arr){
-	while((idx > 0) && (arr[idx] > arr[idx/2])){
+	while((idx > 0) && (arr[idx] > arr[(idx-1)/2])){
         int temp = arr[idx];
-        arr[idx] = arr[idx/2];
-        arr[idx/2] = temp;
+        arr[idx] = arr[(idx-1)/2];
+        arr[(idx-1)/2] = temp;
+        idx = (idx-1)/2;
     }
 }
 
 void sink_down(int i, int N, int * arr){
-	int left_idx = (2*i)+1;
-    int right_idx = (2*i)+2;
+	int left_idx = (2*i) + 1;
+    int right_idx = (2*i) + 2;
     int idx_max_value = idx_of_max_value(arr, i, left_idx, right_idx, N);
 
-    while((idx_max_value != i) && (idx_max_value<=N)){
+    while((idx_max_value != i) && (idx_max_value<N)){
+        printf("sinking down swapping %d and %d\n", i, idx_max_value);
         int temp = arr[i];
         arr[i] = arr[idx_max_value];
         arr[idx_max_value] = temp;
         i = idx_max_value;
-        left_idx = (2*i)+1;
-        right_idx = (2*i)+2;
+        left_idx = (2*i) + 1;
+        right_idx = (2*i) + 2;
         idx_max_value = idx_of_max_value(arr, i, left_idx, right_idx, N);
     }
 }
@@ -77,11 +96,11 @@ void sink_down(int i, int N, int * arr){
 int idx_of_max_value(int *arr, int p, int left, int right, int N){
     int idx_max_value = p;
 
-    if((left<=N)&&(arr[left] > arr[idx_max_value])){
+    if((left<N)&&(arr[left] > arr[idx_max_value])){
         idx_max_value = left;
     }
 
-    if((right<=N) && (arr[right]>arr[idx_max_value])){
+    if((right<N) && (arr[right]>arr[idx_max_value])){
         idx_max_value = right;
     }
 
@@ -99,11 +118,8 @@ void add(struct heap_struct * heapP, int new_item){
         heapP->N += 1;
     }
     else{
-        int *arr = calloc(heapP->capacity, sizeof(int));
-        arr = heapP->items;
-        arr[heapP->N] = new_item;
-        heapP->items = arr;
-        //*(heapP->items + heapP->N) = new_item;
+        int * arr = heapP->items;
+        *(arr + heapP->N) = new_item;
         swim_up(heapP->N, heapP->items);
         heapP->N += 1;
     }
@@ -123,7 +139,7 @@ int poll(struct heap_struct * heapP){
 	int mx = heapP->items[0];
     heapP->items[0] = heapP->items[heapP->N];
     heapP->N -= 1;
-    sink_down(0, heapP->N, heapP->items);
+    sink_down(1, heapP->N, heapP->items);
 
 	return mx;
 }
