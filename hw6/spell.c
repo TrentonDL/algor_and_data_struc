@@ -44,4 +44,22 @@ Behavior: If any of the files cannot be open displays a message and returns. (Do
 */
 void spell_check(char * testname, char * dictname){
 	// Write your code here
+	FILE * fp_testname = NULL;
+	FILE * fp_dictname = NULL;
+
+	fp_testname = fopen(testname, 'r');
+	if(fp_testname == NULL){
+		printf("%s did not open!\n", *testname);
+		return;
+	}
+	
+	fp_dictname = fopen(dictname, 'r');
+	if (fp_dictname == NULL)
+	{
+		printf("%s dictonary file did not open!\n", *dictname);
+		return;
+	}
+
+
+	
 }
