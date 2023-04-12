@@ -33,7 +33,7 @@ Parameters:
 Return:  the value of the edit distance
 */
 int edit_distance(char * first_string, char * second_string, int print_table){
-    return -1;  // replace this line with your code
+	return -1;  // replace this line with your code
 }
 
 /*
@@ -43,5 +43,5 @@ Parameters:
 Behavior: If any of the files cannot be open displays a message and returns. (Does not exit the program.)
 */
 void spell_check(char * testname, char * dictname){
-    // Write your code here
+	// Write your code here
 }
