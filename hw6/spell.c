@@ -21,7 +21,7 @@ Student answer:  Theta(............)
 */
 
 
-void fill_dictonary(char** dictonary, char * str[]){
+void fill_dictonary(char** dictonary, char str[]){
 	int length = strlen(str);
 	if(length != 0){
 		*dictonary = malloc(length * sizeof(char));
@@ -64,17 +64,21 @@ void spell_check(char * testname, char * dictname){
 		return;
 	}
 
-	int dict_size = 0;
+	char *dictionary[1] = {};
+	int dict_size = 1;
 	fscanf(fp_dictname, "%d ", dict_size);
-	char* dictionary[dict_size] = NULL;
-	for(int i = 0; i <= dict_size; i++){
-		char str[20] = NULL;
+	for(int j=0; j<dict_size; j++){
+		dictionary[j] = malloc(sizeof(char*));
+	}
+	printf("dictionary allocated\n");
+
+	for(int i = 0; i < dict_size; i++){
+		char str[20] = {};
 		fscanf(fp_dictname, "%s ", str);
-		if(str != EOF || str != NULL){
-			fill_dictonary(&dictionary[i], &str);
+		if(*str != EOF || str != NULL){
+			fill_dictonary(&dictionary[i], str);
+			printf("%s\n", *dictionary[i]);
 		}
 	}
-	
-	
 	
 }
