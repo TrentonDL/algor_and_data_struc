@@ -21,8 +21,13 @@ Student answer:  Theta(............)
 */
 
 
-/* Write helper functions here */
-
+void fill_dictonary(char** dictonary, char * str[]){
+	int length = strlen(str);
+	if(length != 0){
+		*dictonary = malloc(length * sizeof(char));
+		*dictonary = str;
+	}
+}
 
 /*
 Parameters:
@@ -43,23 +48,33 @@ Parameters:
 Behavior: If any of the files cannot be open displays a message and returns. (Does not exit the program.)
 */
 void spell_check(char * testname, char * dictname){
-	// Write your code here
 	FILE * fp_testname = NULL;
 	FILE * fp_dictname = NULL;
 
-	fp_testname = fopen(testname, 'r');
+	fp_testname = fopen(testname, "r");
 	if(fp_testname == NULL){
 		printf("%s did not open!\n", *testname);
 		return;
 	}
 	
-	fp_dictname = fopen(dictname, 'r');
+	fp_dictname = fopen(dictname, "r");
 	if (fp_dictname == NULL)
 	{
 		printf("%s dictonary file did not open!\n", *dictname);
 		return;
 	}
 
-
+	int dict_size = 0;
+	fscanf(fp_dictname, "%d ", dict_size);
+	char* dictionary[dict_size] = NULL;
+	for(int i = 0; i <= dict_size; i++){
+		char str[20] = NULL;
+		fscanf(fp_dictname, "%s ", str);
+		if(str != EOF || str != NULL){
+			fill_dictonary(&dictionary[i], &str);
+		}
+	}
+	
+	
 	
 }
