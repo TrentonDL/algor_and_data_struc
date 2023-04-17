@@ -67,7 +67,7 @@ void p_table(char * v_string, char * h_string, int * arr[], int v, int h){
 	printf("\n");
 	for(int k=0; k<v; k++){
 		printf(" %c|", v_string[k]);
-		printf("  %d|", k);
+		printf("  %d|", k+1);
 		for(int c=0;c<h; c++){
 			printf("  %d|", arr[k][c]);
 		}
@@ -80,13 +80,13 @@ void p_table(char * v_string, char * h_string, int * arr[], int v, int h){
 	printf("\n");
 }
 
-void fill_dictonary(char** dictonary, char str[]){
-	int length = strlen(str);
-	if(length != 0){
-		*dictonary = calloc(length, sizeof(char));
-		*dictonary = str;
-	}
-}
+// void fill_dictonary(char* dictonary, char str[]){
+// 	int length = strlen(str);
+// 	if(length != 0){
+// 		dictonary = (char*)calloc(length + 1, sizeof(char));
+// 		*dictonary = str;
+// 	}
+// }
 
 /*
 Parameters:
@@ -114,9 +114,7 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 				equals = 2;
 
 			edit_arr[i][j] = Dist(first_string, second_string, i, j);
-			//min(Dist(first_string, second_string, i-1, j) +1,
-			//					Dist(first_string, second_string, i, j-1) +1,
-			//					Dist(first_string, second_string, i-1, j-1) + equals);
+
 		}
 	}
 
@@ -124,9 +122,12 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 		p_table(first_string, second_string, edit_arr, f_length, s_length);
 	}
 
-	//Dist(first_string, second_string, f_length, s_length);
+	int edit_dist = edit_arr[f_length-1][s_length-1];
 
-	return edit_arr[f_length-1][s_length-1];  // replace this line with your code
+	for(int i=0; i < f_length; i++){
+		free(edit_arr[i]);
+	}
+	return  edit_dist; // replace this line with your code
 }
 
 /*
@@ -151,20 +152,22 @@ void spell_check(char * testname, char * dictname){
 		printf("Could not open %s. Exit\n", *testname);
 		return;
 	}
-
-	char *dictionary[1] = {};
-	int dict_size = 1;
-	fscanf(fp_dictname, "%d ", dict_size);
-	for(int j=0; j<dict_size; j++){
-		dictionary[j] = malloc(sizeof(char*));
-	}
+	printf("I am here\n");
+	char **dictionary;
+	int dict_size;
+	char buffer;
+	fscanf(fp_dictname, "%d%c ", dict_size, buffer);
+	printf("malloced?\n");
+	dictionary = malloc(dict_size * sizeof(char *)); 
 	printf("dictionary allocated\n");
 
 	for(int i = 0; i < dict_size; i++){
 		char str[20] = {};
 		fscanf(fp_dictname, "%s ", str);
 		if(*str != EOF || str != NULL){
-			fill_dictonary(&dictionary[i], str);
+			dictionary[i] = (char*)calloc(strlen(str)+1, sizeof(char));
+			strcpy(dictionary[i], str);
+			//fill_dictonary(dictionary[i], str);
 			printf("%s\n", *dictionary[i]);
 		}
 	}
