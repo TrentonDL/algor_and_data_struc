@@ -19,6 +19,8 @@ Worst case to do an unsuccessful binary search in a dictionary with D words, whe
 all dictionary words and the searched word have length MAX_LEN 
 Student answer:  Theta(............)
 */
+
+
 int min(int x, int y, int z){
 	if(x < y && x < z)
 		return x;
@@ -29,16 +31,46 @@ int min(int x, int y, int z){
 }
 
 int Dist(char * f, char * s, int i, int j){
-	if(i == 0)
-		return j;
-
 	if(j == 0)
 		return i;
+
+	if(i == 0)
+		return j;
 
 	if (f[i-1] == s[j - 1])
 		return Dist(f, s, i-1, j-1);
 
 	return 1 + min(Dist(f, s, i, j-1), Dist(f, s, i-1, j), Dist(f, s, i-1, j-1));
+}
+
+void p_table(char * v_string, char * h_string, int arr[], int v, int h){
+	printf("  |");
+	for(int i=0;i<h; i++){
+		if(i == 0)
+			printf("   |");
+		else
+			printf("  %c|", h_string[i-1]);
+	}
+	printf("\n--");
+	for(int i=0;i<h; i++){
+		printf("----");
+	}
+	printf("  |");
+	for(int j=0; j<=h; j++){
+		printf("  %d|", j);
+	}
+	for(int k=0; k<v; k++){
+		printf(" %c|", v_string[k]);
+		printf("  %d|", k);
+		for(int c=0;c<=h; c++){
+			printf("  %d|", arr[k][c]);
+		}
+		printf("\n--");
+		for(int c=0;c<=h; c++){
+			printf("----");
+		}
+		printf("\n\n");
+	}
 }
 
 void fill_dictonary(char** dictonary, char str[]){
@@ -60,6 +92,25 @@ Return:  the value of the edit distance
 int edit_distance(char * first_string, char * second_string, int print_table){
 	int f_length = strlen(first_string);
 	int s_length = strlen(second_string);
+	int (*edit_arr)[f_length] = calloc(s_length, f_length * sizeof(int));
+
+
+	for(int i = f_length; i >= 0; i--){
+		for(int j = s_length; j >= 0; j--){
+			int equals = 0;
+
+			if(first_string[i] != second_string[j])
+				equals = 2;
+
+			edit_arr[i][j] = min(Dist(first_string, second_string, i-1, j) +1,
+								Dist(first_string, second_string, i, j-1) +1,
+								Dist(first_string, second_string, i-1, j-1) + equals);
+		}
+	}
+
+	if(print_table == 1){
+		p_table(first_string, second_string, *edit_arr, f_length, s_length);
+	}
 
 	int edit_distance = Dist(first_string, second_string, f_length, s_length);
 
