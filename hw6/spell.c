@@ -19,12 +19,32 @@ Worst case to do an unsuccessful binary search in a dictionary with D words, whe
 all dictionary words and the searched word have length MAX_LEN 
 Student answer:  Theta(............)
 */
+int min(int x, int y, int z){
+	if(x < y && x < z)
+		return x;
+	else if(y < x && y < z)
+		return y;
+	else 
+		return z;
+}
 
+int Dist(char * f, char * s, int i, int j){
+	if(i == 0)
+		return j;
+
+	if(j == 0)
+		return i;
+
+	if (f[i-1] == s[j - 1])
+		return Dist(f, s, i-1, j-1);
+
+	return 1 + min(Dist(f, s, i, j-1), Dist(f, s, i-1, j), Dist(f, s, i-1, j-1));
+}
 
 void fill_dictonary(char** dictonary, char str[]){
 	int length = strlen(str);
 	if(length != 0){
-		*dictonary = malloc(length * sizeof(char));
+		*dictonary = calloc(length, sizeof(char));
 		*dictonary = str;
 	}
 }
@@ -38,7 +58,12 @@ Parameters:
 Return:  the value of the edit distance
 */
 int edit_distance(char * first_string, char * second_string, int print_table){
-	return -1;  // replace this line with your code
+	int f_length = strlen(first_string);
+	int s_length = strlen(second_string);
+
+	int edit_distance = Dist(first_string, second_string, f_length, s_length);
+
+	return edit_distance;  // replace this line with your code
 }
 
 /*
@@ -51,16 +76,16 @@ void spell_check(char * testname, char * dictname){
 	FILE * fp_testname = NULL;
 	FILE * fp_dictname = NULL;
 
-	fp_testname = fopen(testname, "r");
-	if(fp_testname == NULL){
-		printf("%s did not open!\n", *testname);
-		return;
-	}
-	
 	fp_dictname = fopen(dictname, "r");
 	if (fp_dictname == NULL)
 	{
-		printf("%s dictonary file did not open!\n", *dictname);
+		printf("Could not open %s. Exit\n", *dictname);
+		return;
+	}
+
+	fp_testname = fopen(testname, "r");
+	if(fp_testname == NULL){
+		printf("Could not open %s. Exit\n", *testname);
 		return;
 	}
 
@@ -80,5 +105,4 @@ void spell_check(char * testname, char * dictname){
 			printf("%s\n", *dictionary[i]);
 		}
 	}
-	
 }
