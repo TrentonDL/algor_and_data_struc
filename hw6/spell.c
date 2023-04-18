@@ -18,6 +18,8 @@ Student answer:  Theta(............)
 Worst case to do an unsuccessful binary search in a dictionary with D words, when 
 all dictionary words and the searched word have length MAX_LEN 
 Student answer:  Theta(............)
+
+compile with gcc -g -std=c99 spell_checker.c spell.c
 */
 
 //Returns smallest value between the 3 inputs
