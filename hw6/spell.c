@@ -139,6 +139,14 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 	return  edit_dist;
 }
 
+/*
+Parameters:
+	testword   - single word from testfile
+	Dictionary - entire Dictionary already created in spell_check()
+	d_size     - size of the Dictionary
+
+Prints out correction ui to command line
+*/
 void edit_testname(char * testword, char ** Dictionary, int d_size){
 	int edit_choice = 0;
 	int user_choice = 0;
