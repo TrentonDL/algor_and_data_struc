@@ -20,7 +20,7 @@ all dictionary words and the searched word have length MAX_LEN
 Student answer:  Theta(............)
 */
 
-
+//Returns smallest value between the 3 inputs
 int min(int x, int y, int z){
 	if(x < y && x < z)
 		return x;
@@ -30,6 +30,15 @@ int min(int x, int y, int z){
 		return z;
 }
 
+/*
+Parameters:
+	- f : first string inputed
+	- s : second string inputed
+	- i : first string index - up to f[i]
+	- j : second string index - up to s[j]
+Returns:
+	- int - edit distance for characters up to the indexes of i and j
+*/
 int Dist(char * f, char * s, int i, int j){
 	if(j == 0)
 		return i;
@@ -43,6 +52,14 @@ int Dist(char * f, char * s, int i, int j){
 	return 1 + min(Dist(f, s, i, j-1), Dist(f, s, i-1, j), Dist(f, s, i-1, j-1));
 }
 
+/*
+Parameters:
+	- v_string: string being printed vertically
+	- h_string: string being printed horizontally
+	- * arr[] : the 2D array with edit distance values
+	- int v	  : string length of vertical string
+	- int h   : string length of horizontal string
+*/
 void p_table(char * v_string, char * h_string, int * arr[], int v, int h){
 	printf("\n  |");
 	for(int i=0;i<=h; i++){
@@ -80,14 +97,6 @@ void p_table(char * v_string, char * h_string, int * arr[], int v, int h){
 	printf("\n");
 }
 
-// void fill_dictonary(char* dictonary, char str[]){
-// 	int length = strlen(str);
-// 	if(length != 0){
-// 		dictonary = (char*)calloc(length + 1, sizeof(char));
-// 		*dictonary = str;
-// 	}
-// }
-
 /*
 Parameters:
   - first_string - pointer to the first string (displayed vertical in the table)
@@ -100,7 +109,6 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 	int f_length = strlen(first_string);
 	int s_length = strlen(second_string);
 	int* edit_arr[f_length];
-	//int (*edit_arr)[f_length] = calloc(s_length, f_length * sizeof(int));
 	for(int i=0; i < f_length; i++){
 		edit_arr[i] =(int *)malloc(s_length * sizeof(int));
 	}
@@ -167,7 +175,6 @@ void spell_check(char * testname, char * dictname){
 		if(*str != EOF || str != NULL){
 			dictionary[i] = (char*)calloc(strlen(str)+1, sizeof(char));
 			strcpy(dictionary[i], str);
-			//fill_dictonary(dictionary[i], str);
 			printf("%s\n", *dictionary[i]);
 		}
 	}
