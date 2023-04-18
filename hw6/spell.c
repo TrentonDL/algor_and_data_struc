@@ -138,6 +138,72 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 	return  edit_dist; // replace this line with your code
 }
 
+void edit_testname(char * testword, char ** Dictonary, int d_size){
+	int edit_choice = 0;
+	int user_choice = 0;
+	printf("-1 - type correction\n");
+	printf(" 0 - leave word as is (do not fix speeling)\n\t Minimum distance: ");
+	scanf("%d", &edit_choice);
+
+	printf("\t Words that give minimum distance:\n");
+	int *edit_arr = malloc(d_size * sizeof(int));
+	
+	for(int i = 0; i < d_size; i++){
+		edit_arr[i] = edit_distance(testword, *Dictonary, 0);
+	}
+	int counter = 0;
+	char **edit_words;
+
+	for(int j = 0, i = 0; (j <= edit_choice) && (i < d_size) ; j++, i++){
+		if(edit_arr[i] == j){
+			counter++;
+		}
+	}
+	edit_words = malloc(counter * sizeof(char *));
+
+	for(int j = 0, i = 0, k = 0; (j <= edit_choice) && (i < d_size) ; j++, i++){
+		if(edit_arr[i] == j){
+			edit_words[k] = (char *)calloc(strlen(*Dictonary[i])+1, sizeof(char));
+			strcpy(edit_words[k],(*Dictonary[i]));
+		}
+	}
+
+	//free edit_distance array
+	free(edit_arr);
+
+	for(int x = 0; x < counter; x++){
+		printf(" %d - %s\n", x+1, edit_words[x]);
+	}
+	printf("Enter your choice: ");
+	scanf("%d", &user_choice);
+	char user_inputed_word[30] = {};
+	switch (user_choice)
+	{
+	case -1:
+		printf("Enter correct word: ");
+		scanf("%s", user_inputed_word);
+		printf("The corrected word is: %s\n", user_inputed_word);
+		break;
+	case 0:
+		printf("The corrected word is: %s\n", testword);
+		break;
+	
+	default:
+		if(user_choice > counter+1 || user_choice < -1){
+			printf("Invalid choice. Orginal word will be kept.\n");
+			printf("The corrected word is: %s\n", testword);
+		}
+		else{
+			printf("The corrected word is: %s\n", edit_words[user_choice-1]);
+		}
+		break;
+	}
+
+	for(int i = 0; i< counter; i++){
+		free(edit_words[i]);
+	}	
+}
+
 /*
 Parameters:
   - testname - string containing the name of the file with the paragraph to spell check, includes file extenssion e.g. "text1.txt" 
@@ -160,14 +226,12 @@ void spell_check(char * testname, char * dictname){
 		printf("Could not open %s. Exit\n", *testname);
 		return;
 	}
-	printf("I am here\n");
+
 	char **dictionary;
 	int dict_size;
 	char buffer;
 	fscanf(fp_dictname, "%d%c ", &dict_size, &buffer);
-	printf("dict_size = %d\nmalloced?\n", dict_size);
 	dictionary = malloc(dict_size * sizeof(char *)); 
-	printf("dictionary allocated\n");
 
 	for(int i = 0; i < dict_size; i++){
 		char str[20] = {};
@@ -175,7 +239,27 @@ void spell_check(char * testname, char * dictname){
 		if(*str != EOF || str != NULL){
 			dictionary[i] = (char*)calloc(strlen(str)+1, sizeof(char));
 			strcpy(dictionary[i], str);
-			printf("%s\n", *dictionary[i]);
 		}
+	}
+	printf("\n\nLoaded dictonary %s has size: %d\n", dictname, dict_size);
+
+	char **testwords;
+	int test_size;
+	fscanf(fp_testname, "%d%c ", &test_size, &buffer);
+	testwords = malloc(test_size * sizeof(char *));
+
+	for(int j = 0; j < test_size; j++){
+		char str[20] = {};
+		fscanf(fp_testname, "%s ", str);
+		if(*str != EOF || str != NULL){
+			testwords[j] = (char*)calloc(strlen(str)+1,sizeof(char));
+			strcpy(testwords[j], str);
+			printf("\n---> |%s|\n", testwords[j]);
+			edit_testname(testwords[j], dictionary, dict_size);
+		}
+	}
+
+	for(int j = 0; j < test_size; j++){
+		free(testwords[j]);
 	}
 }
