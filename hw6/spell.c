@@ -12,12 +12,12 @@ https://www.geeksforgeeks.org/pass-2d-array-parameter-c/
 
 Worst case time complexity to compute the edit distance from T test words
  to D dictionary words where all words have length MAX_LEN:
-Student answer:  Theta(............)
+Student answer:  Theta(T * D * MAX_LEN^2)
 
 
 Worst case to do an unsuccessful binary search in a dictionary with D words, when 
 all dictionary words and the searched word have length MAX_LEN 
-Student answer:  Theta(............)
+Student answer:  Theta(2^(D*MAX_LEN))
 
 compile with gcc -g -std=c99 spell_checker.c spell.c
 */
@@ -117,13 +117,7 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 
 	for(int i = f_length - 1; i >= 0; i--){
 		for(int j = s_length - 1; j >= 0; j--){
-			int equals = 0;
-
-			if(first_string[i] != second_string[j])
-				equals = 2;
-
 			edit_arr[i][j] = Dist(first_string, second_string, i+1, j+1);
-
 		}
 	}
 
