@@ -156,8 +156,8 @@ void spell_check(char * testname, char * dictname){
 	char **dictionary;
 	int dict_size;
 	char buffer;
-	fscanf(fp_dictname, "%d%c ", dict_size, buffer);
-	printf("malloced?\n");
+	fscanf(fp_dictname, "%d%c ", &dict_size, &buffer);
+	printf("dict_size = %d\nmalloced?\n", dict_size);
 	dictionary = malloc(dict_size * sizeof(char *)); 
 	printf("dictionary allocated\n");
 
