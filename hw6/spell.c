@@ -113,7 +113,6 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 		edit_arr[i] =(int *)malloc(s_length * sizeof(int));
 	}
 
-
 	for(int i = f_length - 1; i >= 0; i--){
 		for(int j = s_length - 1; j >= 0; j--){
 			int equals = 0;
@@ -121,7 +120,7 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 			if(first_string[i] != second_string[j])
 				equals = 2;
 
-			edit_arr[i][j] = Dist(first_string, second_string, i, j);
+			edit_arr[i][j] = Dist(first_string, second_string, i+1, j+1);
 
 		}
 	}
@@ -132,75 +131,80 @@ int edit_distance(char * first_string, char * second_string, int print_table){
 
 	int edit_dist = edit_arr[f_length-1][s_length-1];
 
+	//free array - not needed anymore
 	for(int i=0; i < f_length; i++){
 		free(edit_arr[i]);
 	}
-	return  edit_dist; // replace this line with your code
+
+	return  edit_dist;
 }
 
-void edit_testname(char * testword, char ** Dictonary, int d_size){
+void edit_testname(char * testword, char ** Dictionary, int d_size){
 	int edit_choice = 0;
 	int user_choice = 0;
 	printf("-1 - type correction\n");
 	printf(" 0 - leave word as is (do not fix speeling)\n\t Minimum distance: ");
 	scanf("%d", &edit_choice);
 
-	printf("\t Words that give minimum distance:\n");
-	int *edit_arr = malloc(d_size * sizeof(int));
-	
-	for(int i = 0; i < d_size; i++){
-		edit_arr[i] = edit_distance(testword, *Dictonary, 0);
-	}
-	int counter = 0;
-	char **edit_words;
-
-	for(int j = 0, i = 0; (j <= edit_choice) && (i < d_size) ; j++, i++){
-		if(edit_arr[i] == j){
-			counter++;
+	if(edit_choice > 0){
+		printf("\t Words that give minimum distance:\n");
+		int *edit_arr = malloc(d_size * sizeof(int));
+		int counter = 0;
+		for(int i = 0; i < d_size; i++){
+			edit_arr[i] = edit_distance(testword, Dictionary[i], 0);
+			if (edit_arr[i] <= edit_choice) {
+				counter++;
+			}
 		}
-	}
-	edit_words = malloc(counter * sizeof(char *));
+		int* edit_words;
 
-	for(int j = 0, i = 0, k = 0; (j <= edit_choice) && (i < d_size) ; j++, i++){
-		if(edit_arr[i] == j){
-			edit_words[k] = (char *)calloc(strlen(*Dictonary[i])+1, sizeof(char));
-			strcpy(edit_words[k],(*Dictonary[i]));
+		edit_words = malloc(counter * sizeof(int));
+
+		for(int j = 0, k = 0; (j <= edit_choice) ; j++){
+			for (int i = 0; i < d_size; i++) {
+				if (edit_arr[i] == j) {
+					edit_words[k] = i;
+					k++;
+				}
+			}
 		}
-	}
 
-	//free edit_distance array
-	free(edit_arr);
+		//free edit_distance array
+		free(edit_arr);
 
-	for(int x = 0; x < counter; x++){
-		printf(" %d - %s\n", x+1, edit_words[x]);
-	}
-	printf("Enter your choice: ");
-	scanf("%d", &user_choice);
-	char user_inputed_word[30] = {};
-	switch (user_choice)
-	{
-	case -1:
-		printf("Enter correct word: ");
-		scanf("%s", user_inputed_word);
-		printf("The corrected word is: %s\n", user_inputed_word);
-		break;
-	case 0:
-		printf("The corrected word is: %s\n", testword);
-		break;
-	
-	default:
-		if(user_choice > counter+1 || user_choice < -1){
-			printf("Invalid choice. Orginal word will be kept.\n");
+		for(int x = 0; x < counter; x++){
+			printf(" %d - %s\n", x+1, Dictionary[edit_words[x]]);
+		}
+		printf("Enter your choice: ");
+		scanf("%d", &user_choice);
+		char user_inputed_word[30] = {};
+		switch (user_choice)
+		{
+		case -1:
+			printf("Enter correct word: ");
+			scanf("%s", user_inputed_word);
+			printf("The corrected word is: %s\n", user_inputed_word);
+			break;
+		case 0:
 			printf("The corrected word is: %s\n", testword);
+			break;
+		
+		default:
+			if(user_choice > counter+1 || user_choice < -1){
+				printf("Invalid choice. Orginal word will be kept.\n");
+				printf("The corrected word is: %s\n", testword);
+			}
+			else{
+				printf("The corrected word is: %s\n", Dictionary[edit_words[user_choice-1]]);
+			}
+			break;
 		}
-		else{
-			printf("The corrected word is: %s\n", edit_words[user_choice-1]);
-		}
-		break;
-	}
 
-	for(int i = 0; i< counter; i++){
-		free(edit_words[i]);
+		free(edit_words);
+	}
+	else{
+		printf("\nInvaild edit distance! Please try again\n\n");
+		edit_testname(testword, Dictionary, d_size);
 	}	
 }
 
