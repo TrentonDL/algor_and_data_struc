@@ -7,14 +7,39 @@
 #include <string.h>
 
 #define MAX_COURSE_LENGTH 30
+#define FILELINE_SIZE 1000
+#define MAX_NUM_COURSES 100
 
 //Function prototypes
 FILE * openFile(int argc, char *argv[]);
 
 int main(int argc, char *argv[]){
     FILE *fp = NULL;
+    char fileline[FILELINE_SIZE] = {};
+    char *Token = NULL;
+    char *delims = " \n";
+    int course_counter = 0;
+    int vertex_counter = 0;
+    char *courses[MAX_NUM_COURSES] = {};
+    
 
     fp = openFile(argc, argv);
+
+    while (fgets(fileline, FILELINE_SIZE, fp) != NULL){
+        Token = strtok(fileline, delims);
+        courses[course_counter] = Token;
+        
+        do{
+            Token = strtok(NULL,delims);
+            if(Token != NULL){
+                courses[course_counter][vertex_counter] = (char*) malloc(strlen(Token) * sizeof(char));
+                strcpy(courses[course_counter][vertex_counter], Token);
+                vertex_counter++;
+            }
+
+        }while(Token != "\n");
+        course_counter++;
+    }
     return EXIT_SUCCESS;
 }
 
