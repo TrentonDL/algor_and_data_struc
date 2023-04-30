@@ -17,17 +17,24 @@ int main(int argc, char *argv[]){
     FILE *fp = NULL;
     char fileline[FILELINE_SIZE] = {};
     char *Token = NULL;
-    char *delims = " \n";
+    char *delims = " ";
+    char *newline;
     int course_counter = 0;
     int vertex_counter = 0;
-    char *courses[MAX_NUM_COURSES] = {};
+    char **courses[MAX_NUM_COURSES] = {};
     
 
     fp = openFile(argc, argv);
 
     while (fgets(fileline, FILELINE_SIZE, fp) != NULL){
+        char *newline = strchr(fileline, '\n');
+        if(newline){
+            *newline = 0;
+        }
+
         Token = strtok(fileline, delims);
-        courses[course_counter] = Token;
+        courses[course_counter] = &Token;
+        printf("While loop\n");
         
         do{
             Token = strtok(NULL,delims);
@@ -35,10 +42,12 @@ int main(int argc, char *argv[]){
                 courses[course_counter][vertex_counter] = (char*) malloc(strlen(Token) * sizeof(char));
                 strcpy(courses[course_counter][vertex_counter], Token);
                 vertex_counter++;
+                printf("vertex counter - %d\n", vertex_counter);
             }
 
-        }while(Token != "\n");
+        }while(Token != "\0");
         course_counter++;
+        printf("course counter - %d\n", course_counter);
     }
     return EXIT_SUCCESS;
 }
