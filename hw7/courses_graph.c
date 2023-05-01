@@ -7,8 +7,8 @@
 #include <string.h>
 
 #define MAX_COURSE_LENGTH 30
+#define MAX_FILENAME_LENGTH 30
 #define FILELINE_SIZE 1000
-#define MAX_NUM_COURSES 100
 
 //Function prototypes
 
@@ -80,8 +80,7 @@ int main(int argc, char *argv[]){
     // argc = input strings in command line
     // argv = input strings array
 FILE * openFile(int argc, char *argv[]){
-    char filename[MAX_COURSE_LENGTH + 1] = {};
-    char course_name[MAX_COURSE_LENGTH + 1] = {};
+    char filename[MAX_FILENAME_LENGTH + 1] = {};
     FILE * filePtr = NULL;
 
     if(argc == 2){
