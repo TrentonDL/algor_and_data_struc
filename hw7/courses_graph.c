@@ -11,6 +11,10 @@
 #define MAX_NUM_COURSES 100
 
 //Function prototypes
+
+//Parameters: 
+    // argc = input strings in command line
+    // argv = input strings array
 FILE * openFile(int argc, char *argv[]);
 
 int main(int argc, char *argv[]){
