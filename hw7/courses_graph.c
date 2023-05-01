@@ -20,7 +20,6 @@ int main(int argc, char *argv[]){
     char *delims = " ";
     char *newline;
     int course_counter = 0;
-    int vertex_counter = 0;
     char **courses[MAX_NUM_COURSES] = {};
     
 
@@ -32,20 +31,26 @@ int main(int argc, char *argv[]){
             *newline = 0;
         }
 
+        printf("i am here\n");
+        int vertex_counter = 0;
         Token = strtok(fileline, delims);
-        courses[course_counter] = &Token;
+        printf("Tokenized - |%s|\n", Token);
+        courses[course_counter][vertex_counter] = (char*) malloc((strlen(Token)+1) * sizeof(char));
+        printf("memory allocated\n");
+        strcpy(courses[course_counter][vertex_counter], Token);
         printf("While loop\n");
-        
+        vertex_counter++;
+
         do{
-            Token = strtok(NULL,delims);
-            if(Token != NULL){
-                courses[course_counter][vertex_counter] = (char*) malloc(strlen(Token) * sizeof(char));
+            Token = strtok(NULL, delims);
+            if(Token != "\0" && Token != NULL){
+                courses[course_counter][vertex_counter] = (char*) malloc((strlen(Token)+1) * sizeof(char));
                 strcpy(courses[course_counter][vertex_counter], Token);
                 vertex_counter++;
                 printf("vertex counter - %d\n", vertex_counter);
             }
+        }while(Token != "\0" && Token != NULL);
 
-        }while(Token != "\0");
         course_counter++;
         printf("course counter - %d\n", course_counter);
     }
