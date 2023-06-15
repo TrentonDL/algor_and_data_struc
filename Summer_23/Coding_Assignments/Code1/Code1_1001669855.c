@@ -11,12 +11,32 @@ typedef struct node
 }
 NODE;
 
+void openFile(FILE * fp, char argv[])
+{
+	fp = fopen(argv, "r");
+	if(fp == NULL)
+	{
+		printf("\nFile \"%s\" failed to open...exiting\n", argv);
+		exit(-1);
+	}
+}
+
 void AddNodeToLL(int Number, NODE **LinkedListHead)
 {
 }
 
 void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 {
+	if(argc != 2)
+	{
+		printf("File must be provided on command line...exiting\n");
+		exit(-1);
+	}
+
+	FILE * fp;
+	openFile(fp, argv[1]);
+
+	
 }
 
 void PrintLL(NODE *LLH) 
@@ -27,9 +47,10 @@ void FreeLL(NODE **LLH)
 { 
 }
 
-int main(/* add argc and argv */) 
-{ 
+int main(int argc, char *argv[]) 
+{
 	NODE *LLH = NULL;
+	clock_t start, end;
 	
 	/* capture the clock in a start time */
 	ReadFileIntoLL(argc, argv, &LLH);
