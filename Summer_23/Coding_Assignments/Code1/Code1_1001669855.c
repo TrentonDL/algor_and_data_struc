@@ -28,25 +28,21 @@ void AddNodeToLL(int Number, NODE **LinkedListHead)
 	prev = NULL;
 
 	newNode = malloc(sizeof(NODE));
+	newNode->next_ptr = NULL;
 	newNode->number = Number;
-	printf("initialized\n");
 
 	while (temp->next_ptr != NULL)
 	{
-		printf("while entered\n");
 		prev = temp;
 		temp = temp->next_ptr;
 	}
 
 	if(prev == NULL)
 	{
-		printf("if entered\n");
 		*LinkedListHead = newNode; 
-		printf("linked list head reassigned");
 	}
 	else
 	{
-		printf("else entered\n");
 		prev->next_ptr = newNode;
 	}
 }
@@ -75,7 +71,8 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 }
 
 void PrintLL(NODE *LLH) 
-{ 
+{
+
 }
 
 void FreeLL(NODE **LLH) 
@@ -86,6 +83,7 @@ int main(int argc, char *argv[])
 {
 	NODE *LLH = NULL;
 	LLH = malloc(sizeof(NODE));
+	LLH->next_ptr = NULL;
 	clock_t start, end;
 	
 	/* capture the clock in a start time */
