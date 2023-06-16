@@ -11,9 +11,9 @@ typedef struct node
 }
 NODE;
 
-void openFile(FILE * fp, char argv[])
+void openFile(FILE ** fp, char argv[])
 {
-	fp = fopen(argv, "r");
+	*fp = fopen(argv, "r");
 	if(fp == NULL)
 	{
 		printf("\nFile \"%s\" failed to open...exiting\n", argv);
@@ -23,6 +23,32 @@ void openFile(FILE * fp, char argv[])
 
 void AddNodeToLL(int Number, NODE **LinkedListHead)
 {
+	NODE *temp, *prev, *newNode;
+	temp = *LinkedListHead;
+	prev = NULL;
+
+	newNode = malloc(sizeof(NODE));
+	newNode->number = Number;
+	printf("initialized\n");
+
+	while (temp->next_ptr != NULL)
+	{
+		printf("while entered\n");
+		prev = temp;
+		temp = temp->next_ptr;
+	}
+
+	if(prev == NULL)
+	{
+		printf("if entered\n");
+		*LinkedListHead = newNode; 
+		printf("linked list head reassigned");
+	}
+	else
+	{
+		printf("else entered\n");
+		prev->next_ptr = newNode;
+	}
 }
 
 void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
@@ -34,9 +60,18 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 	}
 
 	FILE * fp;
-	openFile(fp, argv[1]);
+	openFile(&fp, argv[1]);
+	int num;
+	int counter = 0;
+	char buffer[100];
 
-	
+
+	while(fgets(buffer, 99, fp) != NULL)
+	{
+		num = atoi(buffer);
+		AddNodeToLL(num, LLH);
+		counter++;
+	}
 }
 
 void PrintLL(NODE *LLH) 
@@ -44,12 +79,13 @@ void PrintLL(NODE *LLH)
 }
 
 void FreeLL(NODE **LLH) 
-{ 
+{
 }
 
 int main(int argc, char *argv[]) 
 {
 	NODE *LLH = NULL;
+	LLH = malloc(sizeof(NODE));
 	clock_t start, end;
 	
 	/* capture the clock in a start time */
