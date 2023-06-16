@@ -57,7 +57,7 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 
 	FILE * fp;
 	openFile(&fp, argv[1]);
-	int num;
+	int num, sum;
 	int counter = 0;
 	char buffer[100];
 
@@ -65,14 +65,28 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 	while(fgets(buffer, 99, fp) != NULL)
 	{
 		num = atoi(buffer);
+		sum += num;
 		AddNodeToLL(num, LLH);
 		counter++;
 	}
+
+	printf("%d records were read for a total sum of %d", counter, sum);
 }
 
-void PrintLL(NODE *LLH) 
+void PrintLL(NODE **LLH) 
 {
+	NODE *temp, *prev;
+	int counter = 0, sum = 0;
+	temp = *LLH;
 
+	while (temp->next_ptr != NULL)
+	{
+		counter++;
+		sum += temp->number;
+		printf("%p %d %p", temp, temp->number, temp->next_ptr);
+		temp = temp->next_ptr;
+	}
+	printf("%d records were read for a total sum of %d", counter, sum);	
 }
 
 void FreeLL(NODE **LLH) 
@@ -86,19 +100,26 @@ int main(int argc, char *argv[])
 	LLH->next_ptr = NULL;
 	clock_t start, end;
 	
-	/* capture the clock in a start time */
+	start = clock();
 	ReadFileIntoLL(argc, argv, &LLH);
 	/* capture the clock in an end time */
-	printf("\n%ld tics to write the file into the linked list\n", end-start);
+	end = clock();
 
-	/* capture the clock in a start time */
-	PrintLL(LLH);
-	/* capture the clock in an end time */
-	printf("\n%ld tics to print the linked list\n", end-start);
+	printf("\n%ld tics to write the file into the linked list\n", end-start);
 	
+	
+		start = clock();
+		/* capture the clock in a start time */
+		PrintLL(&LLH);
+		end = clock();
+		/* capture the clock in an end time */
+		printf("\n%ld tics to print the linked list\n", end-start);
+	
+	start = clock();
 	/* capture the clock in a start time */
 	FreeLL(&LLH);
 	/* capture the clock in an end time */
+	end = clock();
 	printf("\n%ld tics to free the linked list\n", end-start);
 	
 	return 0; 
