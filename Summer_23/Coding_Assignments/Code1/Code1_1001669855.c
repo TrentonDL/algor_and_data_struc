@@ -103,9 +103,14 @@ void FreeLL(NODE **LLH)
 		sum += temp->number;
 		prev = temp;
 		temp = temp->next_ptr;
-		printf("\nFreeing %p %d %p\n", prev, prev->number, temp);
+
+		#ifdef PRINT
+			printf("\nFreeing %p %d %p\n", prev, prev->number, temp);
+		#endif
+		
 		free(prev);
 	}
+
 	printf("\n%d nodes were deleted for a total sum of %d\n",counter, sum);
 	*LLH = NULL;
 }
