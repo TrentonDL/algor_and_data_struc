@@ -31,7 +31,7 @@ void AddNodeToLL(int Number, NODE **LinkedListHead)
 	newNode->next_ptr = NULL;
 	newNode->number = Number;
 
-	while (temp->next_ptr != NULL)
+	while (temp != NULL)
 	{
 		prev = temp;
 		temp = temp->next_ptr;
@@ -79,11 +79,11 @@ void PrintLL(NODE **LLH)
 	int counter = 0, sum = 0;
 	temp = *LLH;
 
-	while (temp->next_ptr != NULL)
+	while (temp != NULL)
 	{
 		counter++;
 		sum += temp->number;
-		printf("%p %d %p", temp, temp->number, temp->next_ptr);
+		printf("%p %d %p\n", temp, temp->number, temp->next_ptr);
 		temp = temp->next_ptr;
 	}
 	printf("%d records were read for a total sum of %d", counter, sum);	
@@ -96,15 +96,12 @@ void FreeLL(NODE **LLH)
 int main(int argc, char *argv[]) 
 {
 	NODE *LLH = NULL;
-	LLH = malloc(sizeof(NODE));
-	LLH->next_ptr = NULL;
 	clock_t start, end;
 	
 	start = clock();
 	ReadFileIntoLL(argc, argv, &LLH);
 	/* capture the clock in an end time */
 	end = clock();
-
 	printf("\n%ld tics to write the file into the linked list\n", end-start);
 	
 	
