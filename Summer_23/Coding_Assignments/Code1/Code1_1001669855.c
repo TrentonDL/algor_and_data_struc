@@ -1,4 +1,4 @@
-/* Coding Assignment 1 */
+/* Trenton Laule		1001669855 */
 #include <stdlib.h> 
 #include <stdio.h> 
 #include <string.h>
@@ -70,7 +70,8 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 		counter++;
 	}
 
-	printf("%d records were read for a total sum of %d", counter, sum);
+	fclose(fp);
+	printf("\n%d records were read for a total sum of %d\n", counter, sum);
 }
 
 void PrintLL(NODE **LLH) 
@@ -83,14 +84,30 @@ void PrintLL(NODE **LLH)
 	{
 		counter++;
 		sum += temp->number;
-		printf("%p %d %p\n", temp, temp->number, temp->next_ptr);
+		printf("\n%p %d %p\n", temp, temp->number, temp->next_ptr);
 		temp = temp->next_ptr;
 	}
-	printf("%d records were read for a total sum of %d", counter, sum);	
+	printf("\n%d records were read for a total sum of %d\n", counter, sum);	
 }
 
 void FreeLL(NODE **LLH) 
 {
+	NODE *temp, *prev;
+	temp = *LLH;
+	prev = NULL;
+	int counter = 0, sum = 0;
+
+	while(temp != NULL)
+	{
+		counter++;
+		sum += temp->number;
+		prev = temp;
+		temp = temp->next_ptr;
+		printf("\nFreeing %p %d %p\n", prev, prev->number, temp);
+		free(prev);
+	}
+	printf("\n%d nodes were deleted for a total sum of %d\n",counter, sum);
+	*LLH = NULL;
 }
 
 int main(int argc, char *argv[]) 
@@ -104,14 +121,15 @@ int main(int argc, char *argv[])
 	end = clock();
 	printf("\n%ld tics to write the file into the linked list\n", end-start);
 	
-	
+	#ifdef PRINT
 		start = clock();
 		/* capture the clock in a start time */
 		PrintLL(&LLH);
 		end = clock();
 		/* capture the clock in an end time */
 		printf("\n%ld tics to print the linked list\n", end-start);
-	
+	#endif
+
 	start = clock();
 	/* capture the clock in a start time */
 	FreeLL(&LLH);
