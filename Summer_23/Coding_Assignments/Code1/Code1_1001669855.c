@@ -11,12 +11,12 @@ typedef struct node
 }
 NODE;
 
-void openFile(FILE ** fp, char argv[])
+void openFile(FILE ** fp, char filename)
 {
-	*fp = fopen(argv, "r");
+	*fp = fopen(filename, "r");
 	if(fp == NULL)
 	{
-		printf("\nFile \"%s\" failed to open...exiting\n", argv);
+		printf("\nFile \"%s\" failed to open...exiting\n", filename);
 		exit(-1);
 	}
 }
@@ -56,11 +56,17 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 	}
 
 	FILE * fp;
-	openFile(&fp, argv[1]);
+	fp = fopen(argv[1], "r");
+
+	if(fp == NULL)
+	{
+		printf("\nFile \"%s\" failed to open...exiting\n", argv[1]);
+		exit(-1);
+	}
+	//openFile(&fp, argv[1]);
 	int num, sum;
 	int counter = 0;
 	char buffer[100];
-
 
 	while(fgets(buffer, 99, fp) != NULL)
 	{
@@ -74,11 +80,11 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 	printf("\n%d records were read for a total sum of %d\n", counter, sum);
 }
 
-void PrintLL(NODE **LLH) 
+void PrintLL(NODE *LLH) 
 {
 	NODE *temp, *prev;
 	int counter = 0, sum = 0;
-	temp = *LLH;
+	temp = LLH;
 
 	while (temp != NULL)
 	{
@@ -129,7 +135,7 @@ int main(int argc, char *argv[])
 	#ifdef PRINT
 		start = clock();
 		/* capture the clock in a start time */
-		PrintLL(&LLH);
+		PrintLL(LLH);
 		end = clock();
 		/* capture the clock in an end time */
 		printf("\n%ld tics to print the linked list\n", end-start);
