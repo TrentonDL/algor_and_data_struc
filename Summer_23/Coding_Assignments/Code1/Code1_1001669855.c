@@ -56,14 +56,8 @@ void ReadFileIntoLL(int argc,  char *argv[], NODE **LLH)
 	}
 
 	FILE * fp;
-	fp = fopen(argv[1], "r");
-
-	if(fp == NULL)
-	{
-		printf("\nFile \"%s\" failed to open...exiting\n", argv[1]);
-		exit(-1);
-	}
-	//openFile(&fp, argv[1]);
+	openFile(&fp, argv[1]);
+	
 	int num, sum;
 	int counter = 0;
 	char buffer[100];
