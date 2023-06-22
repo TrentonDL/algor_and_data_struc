@@ -11,7 +11,7 @@ typedef struct node
 }
 NODE;
 
-void openFile(FILE ** fp, char filename)
+void openFile(FILE ** fp, char *filename)
 {
 	*fp = fopen(filename, "r");
 	if(fp == NULL)
