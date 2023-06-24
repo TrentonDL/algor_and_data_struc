@@ -14,7 +14,7 @@ void openFile(FILE ** fp, char * filename)
 	}
 }
 
-void printArray(int * arr[], int sizeArr)
+void printArray(int arr[], int sizeArr)
 {
     for(int i = 0; i < sizeArr; i++)
         printf("%d\n", arr[i]);
@@ -40,55 +40,58 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
     {
         counter++;
     }
-    printf("intilize Ap\ncounter = %d\n", counter);
-    *AP = malloc(counter * sizeof(int));
-    printf("sizeof ap = %d\n", sizeof(*AP));
-    printf("malloc complete\n");
+
+    *AP = malloc(sizeof(int) * counter);
     fseek(fp, 0.0, SEEK_SET);
-    printf("fseek\n");
 
     for(int i=0; i<counter; i++)
     {
-        printf("AP[%d] - %d\n", i, *AP[i]);
-        
         fgets(buffer,99,fp);
-        printf("attempting to put %d into array - %d\n", atoi(buffer), i);
-        *AP[i] = atoi(buffer);
-        printf("%d - AP[%d]\n", *AP[i], i);
+        (*AP)[i] = atoi(buffer);
     }
 
-    printArray(AP, counter);
+    #ifdef PRINTARRAY
+    printArray(*AP, counter);
+    #endif
 
     return counter;
 }
 
-void insertionSort(int * A[], int n)
+void insertionSort(int * A, int n)
 {
     int i, key, j;
 
     for( j = 1; j <n; j++ )
     {
-        key = *A[j];
+        key = A[j];
         i = j - 1;
 
-        while (i >= 0 && *A[i] > key)
+        while (i >= 0 && A[i] > key)
         {
             A[i+1] = A[i];
             i = i - 1;
         }
-        *A[i + 1] = key;
+        A[i + 1] = key;
     }
 }
 
 int main(int argc, char *argv[])
 {
     clock_t start, end;
-    int *AP = NULL; 
+    int *AP; 
 
     int elements = ReadFileIntoArray(argc, argv, &AP);
 
-    insertionSort(&AP, elements);
-    printArray(&AP, elements);
+    start = clock();
+    insertionSort(AP, elements);
+    end = clock();
+
+    #ifdef PRINTARRAY
+    printArray(AP, elements);
+    #endif
+
+    printf("Processed %d records\n", elements);
+    printf("Insertion Sort = %ld Tics",(end-start));
 
     return 0;
 }
