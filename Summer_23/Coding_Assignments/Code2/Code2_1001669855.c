@@ -16,7 +16,8 @@ void openFile(FILE ** fp, char * filename)
 
 void printArray(int arr[], int sizeArr)
 {
-    for(int i = 0; i < sizeArr; i++)
+    int i;
+    for(i = 0; i < sizeArr; i++)
         printf("%d\n", arr[i]);
     
     printf("\n");
@@ -43,8 +44,8 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
 
     *AP = malloc(sizeof(int) * counter);
     fseek(fp, 0.0, SEEK_SET);
-
-    for(int i=0; i<counter; i++)
+    int i;
+    for(i=0; i<counter; i++)
     {
         fgets(buffer,99,fp);
         (*AP)[i] = atoi(buffer);
