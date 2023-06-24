@@ -49,7 +49,7 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
         fgets(buffer,99,fp);
         (*AP)[i] = atoi(buffer);
     }
-
+    fclose(fp);
     #ifdef PRINTARRAY
     printArray(*AP, counter);
     #endif
@@ -78,20 +78,21 @@ void insertionSort(int * A, int n)
 int main(int argc, char *argv[])
 {
     clock_t start, end;
-    int *AP; 
+    int *AP;
 
     int elements = ReadFileIntoArray(argc, argv, &AP);
 
     start = clock();
     insertionSort(AP, elements);
     end = clock();
-
+    
     #ifdef PRINTARRAY
     printArray(AP, elements);
     #endif
 
     printf("Processed %d records\n", elements);
-    printf("Insertion Sort = %ld Tics",(end-start));
-
+    printf("Insertion Sort = %ld Tics\n",(end-start));
+    free(AP);
+    AP = NULL;
     return 0;
 }
