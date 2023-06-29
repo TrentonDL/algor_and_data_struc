@@ -75,6 +75,67 @@ void insertionSort(int * A, int n)
     }
 }
 
+void merge(int ** AP, int left, int M, int right)
+{
+    int i, j, k;
+    int n1 = M - right + 1;
+    int n2 = left - M;
+
+    int L[n1], R[n2];
+
+    for (i = 0; i < n1; i++)
+        L[i] = (*AP)[left + i];
+    
+    for (j = 0; j < n2; j++)
+        R[j] = (*AP)[M + 1 + j];
+    
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            (*AP)[k] = L[i];
+            i++;
+        }
+        else
+        {
+            (*AP)[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while(i < n1)
+    {
+        (*AP)[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while(j < n2)
+    {
+        (*AP)[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int ** AP, int L, int R)
+{
+    if(L < R)
+    {
+        int M = (L + R)/2;
+
+        mergeSort(AP,L, M);
+        mergeSort(AP, M+1, R);
+
+        merge(AP, L, M, R);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     clock_t start, end;
@@ -97,11 +158,16 @@ int main(int argc, char *argv[])
     n = 0;
 
     n = ReadFileIntoArray(argc, argv, &AP);
-
-    start = clock();
     
+    start = clock();
+    printf("going to merge\n");
+    mergeSort(&AP,0,n-1);
     end = clock();
 
+    #ifdef PRINTARRAY
+    printArray(AP, n);
+    #endif
+    
     printf("Merge Sort = %ld Tics\n",(end-start));
     free(AP);
     AP = NULL;
