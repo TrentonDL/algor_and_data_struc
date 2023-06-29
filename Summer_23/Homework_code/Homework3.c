@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int FunctionR(int n)
+void FunctionR(int Z[], int a, int b)
 {
-    if (n == 0)
-        return n;
-    else
-        return FunctionR(n-1) + n;
+    if(a < b)
+        return;
+
+    printf("%d-", Z[1]+Z[3]);
+    Z[2] = Z[4];
+
+    FunctionR(Z, Z[1], Z[3]);
 }
 
 int main()
 {
-    int num;
+    int A[] = {848, 123, 687, 981, 532};
 
-    printf("Enter a positive integer: ");
-    scanf("%d", &num);
-
-    printf("%d\n", FunctionR(num));
-
+    FunctionR(A, A[2], A[4]);
     return 0;
 }
