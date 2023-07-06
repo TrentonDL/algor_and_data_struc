@@ -50,6 +50,7 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
         (*AP)[i] = atoi(buffer);
     }
     fclose(fp);
+    
     #ifdef PRINTARRAY
     printArray(*AP, counter);
     #endif
@@ -78,9 +79,9 @@ void insertionSort(int * A, int n)
 void merge(int * AP, int left, int M, int right)
 {
     int i, j, k;
-    int n1 = M - right + 1;
-    int n2 = left - M;
-
+    int n1 = M - left + 1;
+    int n2 = right - M;
+    
     int L[n1], R[n2];
 
     for (i = 0; i < n1; i++)
@@ -125,14 +126,14 @@ void merge(int * AP, int left, int M, int right)
 
 void mergeSort(int * AP, int L, int R)
 {   
-    printf("mergesort\n");
+    
     if(L < R)
     {
         int M = (L + R)/2;
 
         mergeSort(AP,L, M);
         mergeSort(AP, M+1, R);
-        printf("going to merge\n");
+
         merge(AP, L, M, R);
     }
 }
@@ -161,7 +162,7 @@ int main(int argc, char *argv[])
     n = ReadFileIntoArray(argc, argv, &AP);
     
     start = clock();
-    printf("going to merge\n");
+
     mergeSort(AP,0,n-1);
     end = clock();
 
