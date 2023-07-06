@@ -50,7 +50,7 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
         (*AP)[i] = atoi(buffer);
     }
     fclose(fp);
-    
+
     #ifdef PRINTARRAY
     printArray(*AP, counter);
     #endif
@@ -76,11 +76,11 @@ void insertionSort(int * A, int n)
     }
 }
 
-void merge(int * AP, int left, int M, int right)
+void merge(int * AP, int left, int middle, int right)
 {
     int i, j, k;
-    int n1 = M - left + 1;
-    int n2 = right - M;
+    int n1 = middle - left + 1;
+    int n2 = right - middle;
     
     int L[n1], R[n2];
 
@@ -88,7 +88,7 @@ void merge(int * AP, int left, int M, int right)
         L[i] = AP[left + i];
     
     for (j = 0; j < n2; j++)
-        R[j] = AP[M + 1 + j];
+        R[j] = AP[middle + 1 + j];
     
     i = 0;
     j = 0;
