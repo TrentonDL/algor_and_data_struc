@@ -145,17 +145,16 @@ int main(int argc, char *argv[])
     int *AP;
 
     int n = ReadFileIntoArray(argc, argv, &AP);
-
-    start = clock();
-    insertionSort(AP, n);
-    end = clock();
     
+    start = clock();
+    mergeSort(AP,0,n-1);
+    end = clock();
+
     #ifdef PRINTARRAY
     printArray(AP, n);
     #endif
-
-    printf("Processed %d records\n", n);
-    printf("Insertion Sort = %ld Tics\n",(end-start));
+    long merge_tics = (end-start);
+    
     free(AP);
     AP = NULL;
     n = 0;
@@ -163,16 +162,19 @@ int main(int argc, char *argv[])
     n = ReadFileIntoArray(argc, argv, &AP);
     
     start = clock();
-
-    mergeSort(AP,0,n-1);
+    insertionSort(AP, n);
     end = clock();
-
+    
     #ifdef PRINTARRAY
     printArray(AP, n);
     #endif
     
-    printf("Merge Sort = %ld Tics\n",(end-start));
+    printf("Processed %d records\n", n);
+    printf("Merge Sort = %ld Tics\n",merge_tics);
+    printf("Insertion Sort = %ld Tics\n",(end-start));
     free(AP);
     AP = NULL;
+    n = 0;
+
     return 0;
 }
