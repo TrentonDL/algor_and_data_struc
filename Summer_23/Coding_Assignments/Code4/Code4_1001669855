@@ -55,6 +55,42 @@ int ReadFileIntoArray(int argc, char *argv[], int **AP)
     return counter;
 }
 
+void swap(int * Swap1, int * Swap2)
+{
+    int temp = *Swap1;
+    *Swap1 = *Swap2;
+    *Swap2 = temp;
+}
+
+int partition(int * AP, int low, int high)
+{
+    int i, j = 0;
+    int pivot = AP[high];
+
+    i = (low - 1);
+
+    for(j = low; j < high; j++)
+    {
+        if(AP[j] < pivot)
+        {
+            i++;
+            swap(&AP[i], &AP[j]);
+        }
+    }
+    swap(&AP[i + 1], &AP[high]);
+}
+
+void quickSort(int * AP, int low, int high)
+{
+    if (low < high)
+    {
+        int idx = partition(AP, low, high);
+
+        quickSort(AP, low, idx - 1);
+        quickSort(AP, idx + 1, high);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     clock_t start, end;
@@ -66,5 +102,7 @@ int main(int argc, char *argv[])
     printArray(AP, n);
     #endif
 
+
+    quickSort(AP, 0, n-1);
     return 0;
 }
