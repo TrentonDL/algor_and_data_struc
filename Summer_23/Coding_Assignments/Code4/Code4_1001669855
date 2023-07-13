@@ -25,7 +25,7 @@ void printArray(int arr[], int sizeArr)
 
 int ReadFileIntoArray(int argc, char *argv[], int **AP)
 {
-    if(argc != 2)
+    if(argc == 2)
 	{
 		printf("File must be provided on command line...exiting\n");
 		exit(-1);
@@ -65,6 +65,15 @@ void swap(int * Swap1, int * Swap2)
 int partition(int * AP, int low, int high)
 {
     int i, j = 0;
+
+    #if QSM
+    int middle = (high+low)/2;
+    swap(&AP[middle], &AP[high]);
+    #elif QSRND
+    int random = (rand() % (high-low+1)) + low;
+    swap(&AP[random], &AP[high]);
+    #endif
+
     int pivot = AP[high];
 
     i = (low - 1);
@@ -95,14 +104,43 @@ int main(int argc, char *argv[])
 {
     clock_t start, end;
     int *AP;
+    int runs, n;
 
-    int n = ReadFileIntoArray(argc, argv, &AP);
+    if(argc != 3)
+    {
+        printf("Number of runs not specified on command line...defaulting to 10\n");
+        runs = 10;
+    }
+    else
+    {
+        runs = atoi(argv[2]);
+    }
 
-    #ifdef PRINTARRAY
-    printArray(AP, n);
-    #endif
+    int r;
+    long total_tics = 0;
+    for(r=0; r<runs; r++)
+    {
+        n = ReadFileIntoArray(argc, argv, &AP);
 
+        #ifdef PRINTARRAY
+        printArray(AP, n);
+        #endif
+        start = clock();
+        quickSort(AP, 0, n-1);
+        end = clock();
 
-    quickSort(AP, 0, n-1);
+        printf("Run %d complete : %ld tics", r, (end - start));
+
+        #ifdef PRINTARRAY
+        printArray(AP, n);
+        #endif
+        
+        total_tics += (end - start);
+        free(AP);
+        n = 0;
+    }
+    printf("The average run time for %d runs is %ld", runs, (total_tics/(long)runs));
+
+    printf("Processed %d records\n", n);
     return 0;
 }
