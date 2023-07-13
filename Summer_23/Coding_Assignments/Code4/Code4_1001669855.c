@@ -25,7 +25,7 @@ void printArray(int arr[], int sizeArr)
 
 int ReadFileIntoArray(int argc, char *argv[], int **AP)
 {
-    if(argc == 2)
+    if(argc < 2)
 	{
 		printf("File must be provided on command line...exiting\n");
 		exit(-1);
@@ -87,6 +87,8 @@ int partition(int * AP, int low, int high)
         }
     }
     swap(&AP[i + 1], &AP[high]);
+
+    return (i + 1);
 }
 
 void quickSort(int * AP, int low, int high)
@@ -129,7 +131,7 @@ int main(int argc, char *argv[])
         quickSort(AP, 0, n-1);
         end = clock();
 
-        printf("Run %d complete : %ld tics", r, (end - start));
+        printf("Run %d complete : %ld tics\n", r, (end - start));
 
         #ifdef PRINTARRAY
         printArray(AP, n);
@@ -139,8 +141,8 @@ int main(int argc, char *argv[])
         free(AP);
         n = 0;
     }
-    printf("The average run time for %d runs is %ld", runs, (total_tics/(long)runs));
+    printf("The average run time for %d runs is %ld\n", runs, (total_tics/(long)runs));
 
-    printf("Processed %d records\n", n);
+    printf("\n\nProcessed %d records\n", n);
     return 0;
 }
