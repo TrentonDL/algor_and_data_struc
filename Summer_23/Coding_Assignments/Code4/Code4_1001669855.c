@@ -127,16 +127,17 @@ int main(int argc, char *argv[])
         #ifdef PRINTARRAY
         printArray(AP, n);
         #endif
+        
         start = clock();
         quickSort(AP, 0, n-1);
         end = clock();
 
-        printf("Run %d complete : %ld tics\n", r, (end - start));
-
         #ifdef PRINTARRAY
         printArray(AP, n);
         #endif
-        
+
+        printf("Run %d complete : %ld tics\n", r, (end - start));
+
         total_tics += (end - start);
         free(AP);
         n = 0;
