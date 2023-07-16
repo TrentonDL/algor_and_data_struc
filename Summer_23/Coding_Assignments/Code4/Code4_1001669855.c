@@ -7,9 +7,9 @@
 void openFile(FILE ** fp, char *filename)
 {
 	*fp = fopen(filename, "r");
-	if(fp == NULL)
+	if(*fp == NULL)
 	{
-		printf("\nFile \"%s\" failed to open...exiting\n", filename);
+		printf("File \"%s\" failed to open...exiting\n", filename);
 		exit(-1);
 	}
 }
@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
 
     int r;
     long total_tics = 0;
+
     for(r=0; r<runs; r++)
     {
         n = ReadFileIntoArray(argc, argv, &AP);
@@ -136,12 +137,12 @@ int main(int argc, char *argv[])
         printArray(AP, n);
         #endif
 
-        printf("Run %d complete : %ld tics\n", r, (end - start));
+        printf("Run %d complete : %ld tics\n", (r+1), (end - start));
 
         total_tics += (end - start);
         free(AP);
-        n = 0;
     }
+
     printf("The average run time for %d runs is %ld\n", runs, (total_tics/(long)runs));
 
     printf("\n\nProcessed %d records\n", n);
