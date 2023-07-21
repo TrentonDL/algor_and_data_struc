@@ -46,10 +46,12 @@ int populateAdjMatrix(int ** AdjArr, char * argv[])
 	fseek(fp, 0.0, SEEK_SET);
 	memset(*AdjArr, -1, (vertexCount*vertexCount));
 
-	int i;
+	int i = 0;
 	struct Vertex VertexArray[vertexCount];
 
 	char *Token = NULL;
+	int vert;
+	int weight;
 
 	while(fgets(buffer, 99, fp) != NULL)
 	{
@@ -58,7 +60,15 @@ int populateAdjMatrix(int ** AdjArr, char * argv[])
 		
 		Token = strtok(buffer, ",");
 		strcpy(Token,VertexArray[i].label);
-		
+		while(buffer != '\0')
+		{
+			Token = strtok(NULL, ",");
+			vert = atoi(Token);
+			Token = strtok(NULL, ",");
+			weight = atoi(Token);
+			(*AdjArr)[i][vert] = weight;
+		}
+		i++;
 	}
 
 	return vertexCount;
@@ -74,7 +84,6 @@ int main(int argc, char * argv[])
 
 	int * AdjArr;
 	int vertexCount = populateAdjMatrix(&AdjArr, argv);
-
 
 	char starting_vertex;
     char dest_vertex;
