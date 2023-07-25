@@ -24,30 +24,29 @@ void openFile(FILE ** fp, char *filename)
 	}
 }
 
-int * populateAdjMatrix(int * vertexCount, char * argv[])
+int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * VertexArray[])
 {
 	FILE * fp;
 	openFile(&fp, argv[1]);
 
-	(*vertexCount) = 0;
+	int vertexCount = 0;
 	char buffer[100];
 
 	while (fgets(buffer,99,fp) != NULL)
 	{
-		++(*vertexCount);
+		++vertexCount;
 	}
 
-	if((*vertexCount) > MAX)
+	if(vertexCount > MAX)
 	{
 		printf("Too many vertexes, please try a different file.\n. . .Exiting\n");
 		exit(-1);
 	}
-	int AdjMatrix[(*vertexCount)][(*vertexCount)];
+	int AdjMatrix[vertexCount][vertexCount];
 	fseek(fp, 0.0, SEEK_SET);
-	memset(AdjMatrix, -1, ((*vertexCount)*(*vertexCount)));
+	memset(AdjMatrix, -1, (vertexCount*vertexCount));
 
 	int i = 0;
-	struct Vertex VertexArray[(*vertexCount)];
 
 	char *Token = NULL;
 	int vert;
@@ -59,8 +58,12 @@ int * populateAdjMatrix(int * vertexCount, char * argv[])
 			buffer[strlen(buffer)-1] = '\0';
 		
 		Token = strtok(buffer, ",");
-		strcpy(Token,VertexArray[i].label);
-		while(buffer != "\0")
+		strcpy(Token,VertexArray[i]->label);
+		VertexArray[i]->idx = i;
+		VertexArray[i]->visted = 0;
+		VertexArray[i]->distance = INT_MAX;
+
+		while(Token != NULL)
 		{
 			Token = strtok(NULL, ",");
 			vert = atoi(Token);
@@ -71,7 +74,7 @@ int * populateAdjMatrix(int * vertexCount, char * argv[])
 		i++;
 	}
 
-	return &AdjMatrix;
+	return vertexCount;
 }
 
 int main(int argc, char * argv[])
@@ -82,9 +85,9 @@ int main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	int * AdjArr;
-	int vertexCount;
-	int * AdjArr = populateAdjMatrix(&vertexCount, argv);
+	int AdjacencyMatrix[MAX][MAX] = {};
+	struct Vertex VertexArray[MAX] = {};
+	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, &VertexArray);
 
 	char starting_vertex;
     char dest_vertex;
