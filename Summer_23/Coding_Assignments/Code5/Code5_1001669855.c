@@ -11,7 +11,7 @@ struct Vertex
     char label[6];
     int distance;
     int previous;
-    int visted;
+    int visited;
 };
 
 void openFile(FILE ** fp, char *filename)
@@ -24,7 +24,7 @@ void openFile(FILE ** fp, char *filename)
 	}
 }
 
-int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * VertexArray[])
+int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Vertex VertexArray[MAX])
 {
 	FILE * fp;
 	openFile(&fp, argv[1]);
@@ -34,7 +34,7 @@ int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * Ve
 
 	while (fgets(buffer,99,fp) != NULL)
 	{
-		++vertexCount;
+		vertexCount++;
 	}
 
 	if(vertexCount > MAX)
@@ -42,9 +42,9 @@ int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * Ve
 		printf("Too many vertexes, please try a different file.\n. . .Exiting\n");
 		exit(-1);
 	}
-	int AdjMatrix[vertexCount][vertexCount];
+	
 	fseek(fp, 0.0, SEEK_SET);
-	memset(AdjMatrix, -1, (vertexCount*vertexCount));
+	memset(AdjacencyMatrix, -1, sizeof(int)*(vertexCount*vertexCount));
 
 	int i = 0;
 
@@ -58,10 +58,10 @@ int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * Ve
 			buffer[strlen(buffer)-1] = '\0';
 		
 		Token = strtok(buffer, ",");
-		strcpy(Token,VertexArray[i]->label);
-		VertexArray[i]->idx = i;
-		VertexArray[i]->visted = 0;
-		VertexArray[i]->distance = INT_MAX;
+		strcpy(VertexArray[i].label,Token);
+		VertexArray[i].idx = i;
+		VertexArray[i].visited = 0;
+		VertexArray[i].distance = INT_MAX;
 
 		while(Token != NULL)
 		{
@@ -69,7 +69,7 @@ int populateAdjMatrix(int AdjacencyMatrix[][], char * argv[], struct Vertex * Ve
 			vert = atoi(Token);
 			Token = strtok(NULL, ",");
 			weight = atoi(Token);
-			AdjMatrix[i][vert] = weight;
+			AdjacencyMatrix[i][vert] = weight;
 		}
 		i++;
 	}
@@ -87,7 +87,7 @@ int main(int argc, char * argv[])
 
 	int AdjacencyMatrix[MAX][MAX] = {};
 	struct Vertex VertexArray[MAX] = {};
-	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, &VertexArray);
+	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, VertexArray);
 
 	char starting_vertex;
     char dest_vertex;
