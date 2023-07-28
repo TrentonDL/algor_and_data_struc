@@ -24,7 +24,7 @@ void openFile(FILE ** fp, char *filename)
 	}
 }
 
-int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Vertex VertexArray[MAX])
+int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Vertex * VertexArray[])
 {
 	FILE * fp;
 	openFile(&fp, argv[1]);
@@ -58,18 +58,20 @@ int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Verte
 			buffer[strlen(buffer)-1] = '\0';
 		
 		Token = strtok(buffer, ",");
-		strcpy(VertexArray[i].label,Token);
-		VertexArray[i].idx = i;
-		VertexArray[i].visited = 0;
-		VertexArray[i].distance = INT_MAX;
+		strcpy(VertexArray[i]->label, Token);
+		VertexArray[i]->idx = i;
+		VertexArray[i]->visited = 0;
+		VertexArray[i]->distance = INT_MAX;
+
+		Token = strtok(NULL, ",");
 
 		while(Token != NULL)
 		{
-			Token = strtok(NULL, ",");
 			vert = atoi(Token);
 			Token = strtok(NULL, ",");
 			weight = atoi(Token);
 			AdjacencyMatrix[i][vert] = weight;
+			Token = strtok(NULL, ",");
 		}
 		i++;
 	}
@@ -86,7 +88,7 @@ int main(int argc, char * argv[])
 	}
 
 	int AdjacencyMatrix[MAX][MAX] = {};
-	struct Vertex VertexArray[MAX] = {};
+	struct Vertex * VertexArray[MAX] = {};
 	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, VertexArray);
 
 	char starting_vertex;
