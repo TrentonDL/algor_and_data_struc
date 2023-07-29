@@ -5,14 +5,15 @@
 
 #define MAX 50
 
-struct Vertex
+typedef struct 
 {
     int idx;
     char label[6];
     int distance;
     int previous;
     int visited;
-};
+}
+Vertex;
 
 void openFile(FILE ** fp, char *filename)
 {
@@ -24,7 +25,19 @@ void openFile(FILE ** fp, char *filename)
 	}
 }
 
-int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Vertex * VertexArray[])
+void printArray(int AdjMatrix[MAX][MAX], int VertexCount)
+{
+	int i, j;
+	printf("\n");
+	for(i = 0; i < VertexCount; i++)
+	{
+		for(j = 0; j < VertexCount; j++)
+			printf("%5d\t", AdjMatrix[i][j]);
+		printf("\n");
+	}
+}
+
+int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex VertexArray[])
 {
 	FILE * fp;
 	openFile(&fp, argv[1]);
@@ -44,7 +57,14 @@ int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Verte
 	}
 	
 	fseek(fp, 0.0, SEEK_SET);
-	memset(AdjacencyMatrix, -1, sizeof(int)*(vertexCount*vertexCount));
+	
+	int j;
+	for(j = 0; j < vertexCount; j++)
+		memset(AdjacencyMatrix[j], -1, sizeof(int)*(vertexCount));
+
+	#ifdef PRINTIT
+	printArray(AdjacencyMatrix, vertexCount);
+	#endif
 
 	int i = 0;
 
@@ -58,10 +78,10 @@ int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], struct Verte
 			buffer[strlen(buffer)-1] = '\0';
 		
 		Token = strtok(buffer, ",");
-		strcpy(VertexArray[i]->label, Token);
-		VertexArray[i]->idx = i;
-		VertexArray[i]->visited = 0;
-		VertexArray[i]->distance = INT_MAX;
+		strcpy(VertexArray[i].label, Token);
+		VertexArray[i].idx = i;
+		VertexArray[i].visited = 0;
+		VertexArray[i].distance = INT_MAX;
 
 		Token = strtok(NULL, ",");
 
@@ -88,16 +108,22 @@ int main(int argc, char * argv[])
 	}
 
 	int AdjacencyMatrix[MAX][MAX] = {};
-	struct Vertex * VertexArray[MAX] = {};
+	Vertex VertexArray[MAX] = {};
 	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, VertexArray);
+	
+	#ifdef PRINTIT
+	printArray(AdjacencyMatrix,vertexCount);
+	#endif
 
-	char starting_vertex;
-    char dest_vertex;
+	char starting_vertex[6];
+    char dest_vertex[6];
 	printf("What is the starting vertex? ");
-	scanf(" %c", &starting_vertex);
+	scanf(" %s", starting_vertex);
 
 	printf("What is the destination vertex? ");
-	scanf(" %c", &dest_vertex);
+	scanf(" %s", dest_vertex);
+
+
 
     return 0;
 }
