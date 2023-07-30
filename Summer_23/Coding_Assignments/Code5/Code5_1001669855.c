@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <stdbool.h>
 
 #define MAX 50
 
@@ -149,19 +150,20 @@ int dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCoun
 
 void printPath( Vertex VertexArray[], int start, int end, int vertexCount)
 {
-	int path[vertexCount];
-	int i=0 ,current_idx = end;
-	while(VertexArray[current_idx].previous != -1)
-	{
-		path[i] = VertexArray[current_idx].previous;
-		i++;
+	int indexes[vertexCount];
+	int current = end;
+	int count = 0;
+	while (current != start && count <= vertexCount) {
+		indexes[count] = current;
+		current = VertexArray[current].previous;
+		count++;
 	}
-	path[i] = VertexArray[current_idx].previous;
-	i++;
-	for(i; i>= 0; i--)
-	{
-		printf("%s->", VertexArray[i].label);
+	indexes[count] = start;
+	int j;
+	for (j = count; j > 0; j--) {
+		printf("%s->", VertexArray[indexes[j]].label);
 	}
+	printf("%s", VertexArray[indexes[0]].label);
 }
 
 int main(int argc, char * argv[])
