@@ -28,6 +28,7 @@ void openFile(FILE ** fp, char *filename)
 
 void printArray(int AdjMatrix[MAX][MAX], int VertexCount)
 {
+	
 	int i, j;
 	printf("\n");
 	for(i = 0; i < VertexCount; i++)
@@ -41,6 +42,7 @@ void printArray(int AdjMatrix[MAX][MAX], int VertexCount)
 
 void printVertexArray(Vertex VertexArray[], int VertexCount)
 {
+	printf("\n%d", VertexCount);
 	printf("\n\n");
 	printf("I\tL\tD\tP\tV\n");
 	int i;
@@ -111,7 +113,7 @@ int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Ve
 		}
 		i++;
 	}
-
+	printVertexArray(VertexArray, vertexCount);
 	return vertexCount;
 }
 
@@ -166,16 +168,22 @@ void printPath(Vertex VertexArray[], int start, int end, int vertexCount)
 	int indexes[vertexCount];
 	int current = end;
 	int count = 0;
-	while (current != start && count <= vertexCount) {
+
+	while (current != start && count <= vertexCount) 
+	{
 		indexes[count] = current;
 		current = VertexArray[current].previous;
 		count++;
 	}
+
 	indexes[count] = start;
 	int j;
-	for (j = count; j > 0; j--) {
+
+	for (j = count; j > 0; j--)
+	{
 		printf("%s->", VertexArray[indexes[j]].label);
 	}
+
 	printf("%s", VertexArray[indexes[0]].label);
 }
 
@@ -192,7 +200,7 @@ int main(int argc, char * argv[])
 	char starting_label[6];
     char dest_label[6];
 	printf("What is the starting vertex? ");
-	scanf(" %s", starting_label);
+	scanf("%s", starting_label);
 
 	int i, start_idx = 0;
 	for(i = 0; i < vertexCount; i++)
@@ -208,7 +216,7 @@ int main(int argc, char * argv[])
 	#endif
 
 	printf("What is the destination vertex? ");
-	scanf(" %s", dest_label);
+	scanf("%s", dest_label);
 
 	int dest_idx = 0;
 	for(i = 0; i < vertexCount; i++)
@@ -216,7 +224,7 @@ int main(int argc, char * argv[])
 		if (strcmp(dest_label, VertexArray[i].label) == 0)
 			dest_idx = VertexArray[i].idx;
 	}
-	
+	printf("\n%d\n", vertexCount);
 	printf("The path from %s to %s is ", VertexArray[start_idx].label, VertexArray[dest_idx].label);
 	printPath(VertexArray, start_idx, dest_idx, vertexCount);
 	printf(" and has a length of %d\n", VertexArray[dest_idx].distance);
