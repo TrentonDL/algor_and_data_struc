@@ -36,10 +36,28 @@ void printArray(int AdjMatrix[MAX][MAX], int VertexCount)
 			printf("%5d\t", AdjMatrix[i][j]);
 		printf("\n");
 	}
+	printf("\n");
 }
 
-int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex VertexArray[])
+void printVertexArray(Vertex VertexArray[], int VertexCount)
 {
+	printf("\n\n");
+	printf("I\tL\tD\tP\tV\n");
+	int i;
+	for(i = 0; i < VertexCount; i++)
+	{
+		printf("%d\t%s\t%d\t%d\t%d\n", i, VertexArray[i].label, VertexArray[i].distance, VertexArray[i].previous, VertexArray[i].visited);
+	}
+	printf("\n");
+}
+
+int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex VertexArray[])
+{
+	if(argc < 2)
+	{
+		printf("File must be provided on command line...exiting\n");
+		exit(-1);
+	}
 	FILE * fp;
 	openFile(&fp, argv[1]);
 
@@ -62,10 +80,6 @@ int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex Verte
 	int j;
 	for(j = 0; j < vertexCount; j++)
 		memset(AdjacencyMatrix[j], -1, sizeof(int)*(vertexCount));
-
-	#ifdef PRINTIT
-	printArray(AdjacencyMatrix, vertexCount);
-	#endif
 
 	int i = 0;
 
@@ -101,7 +115,7 @@ int populateAdjMatrix(int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex Verte
 	return vertexCount;
 }
 
-int dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCount, int start, int dest)
+void dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCount, int start)
 {
 	int Current_idx = start;
 	VertexArray[start].distance = 0;
@@ -145,10 +159,9 @@ int dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCoun
 		Current_idx = SmallestVertexIndex;
 		VertexArray[Current_idx].visited = 1;
 	}
-	return VertexArray[dest].distance;
 }
 
-void printPath( Vertex VertexArray[], int start, int end, int vertexCount)
+void printPath(Vertex VertexArray[], int start, int end, int vertexCount)
 {
 	int indexes[vertexCount];
 	int current = end;
@@ -168,15 +181,9 @@ void printPath( Vertex VertexArray[], int start, int end, int vertexCount)
 
 int main(int argc, char * argv[])
 {
-    if(argc < 2)
-	{
-		printf("File must be provided on command line...exiting\n");
-		exit(-1);
-	}
-
 	int AdjacencyMatrix[MAX][MAX] = {};
 	Vertex VertexArray[MAX] = {};
-	int vertexCount = populateAdjMatrix(AdjacencyMatrix, argv, VertexArray);
+	int vertexCount = populateAdjMatrix(argc, AdjacencyMatrix, argv, VertexArray);
 	
 	#ifdef PRINTIT
 	printArray(AdjacencyMatrix,vertexCount);
@@ -187,22 +194,32 @@ int main(int argc, char * argv[])
 	printf("What is the starting vertex? ");
 	scanf(" %s", starting_label);
 
-	printf("What is the destination vertex? ");
-	scanf(" %s", dest_label);
-
-	int i, start_idx = 0, dest_idx = 0;
+	int i, start_idx = 0;
 	for(i = 0; i < vertexCount; i++)
 	{
 		if(strcmp(starting_label, VertexArray[i].label) == 0)
 			start_idx = VertexArray[i].idx;
-		else if (strcmp(dest_label, VertexArray[i].label) == 0)
-			dest_idx = VertexArray[i].idx;
 	}
 
-	int dijkstra_len = dijkstra(AdjacencyMatrix, VertexArray, vertexCount, start_idx, dest_idx);
+	dijkstra(AdjacencyMatrix, VertexArray, vertexCount, start_idx);
+	
+	#ifdef PRINTIT
+	printVertexArray(VertexArray, vertexCount);
+	#endif
+
+	printf("What is the destination vertex? ");
+	scanf(" %s", dest_label);
+
+	int dest_idx = 0;
+	for(i = 0; i < vertexCount; i++)
+	{
+		if (strcmp(dest_label, VertexArray[i].label) == 0)
+			dest_idx = VertexArray[i].idx;
+	}
 	
 	printf("The path from %s to %s is ", VertexArray[start_idx].label, VertexArray[dest_idx].label);
 	printPath(VertexArray, start_idx, dest_idx, vertexCount);
-	printf(" and\nhas a length of %d\n", dijkstra_len);
+	printf(" and has a length of %d\n", VertexArray[dest_idx].distance);
+
     return 0;
 }
