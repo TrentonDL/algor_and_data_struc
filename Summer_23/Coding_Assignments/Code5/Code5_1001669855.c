@@ -40,9 +40,8 @@ void printArray(int AdjMatrix[MAX][MAX], int VertexCount)
 	printf("\n");
 }
 
-void printVertexArray(Vertex VertexArray[], int VertexCount)
+void printVertexArray(Vertex VertexArray[MAX], int VertexCount)
 {
-	printf("\n%d", VertexCount);
 	printf("\n\n");
 	printf("I\tL\tD\tP\tV\n");
 	int i;
@@ -53,7 +52,7 @@ void printVertexArray(Vertex VertexArray[], int VertexCount)
 	printf("\n");
 }
 
-int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex VertexArray[])
+int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Vertex VertexArray[MAX])
 {
 	if(argc < 2)
 	{
@@ -113,16 +112,17 @@ int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Ve
 		}
 		i++;
 	}
-	printVertexArray(VertexArray, vertexCount);
+
 	return vertexCount;
 }
 
-void dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCount, int start)
+void dijkstra(int AdjacencyMatrix[][MAX], Vertex VertexArray[], int VertexCount, int start)
 {
 	int Current_idx = start;
 	VertexArray[start].distance = 0;
 	VertexArray[start].previous = -1;
 	VertexArray[start].visited = 1;
+
 
 	int x,y,z, dofu, cofuv, dofv, SmallestVertexIndex;
 	for(x = 0; x < VertexCount-1; x++)
@@ -141,9 +141,9 @@ void dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCou
 					VertexArray[y].distance = dofv;
 					VertexArray[y].previous = Current_idx;
 				}
-
 			}
 		}
+
 		SmallestVertexIndex = -1;
 		int SmallestVertex = INT_MAX;
 
@@ -163,7 +163,7 @@ void dijkstra(int AdjacencyMatrix[MAX][MAX], Vertex VertexArray[], int VertexCou
 	}
 }
 
-void printPath(Vertex VertexArray[], int start, int end, int vertexCount)
+void printPath(Vertex VertexArray[MAX], int start, int end, int vertexCount)
 {
 	int indexes[vertexCount];
 	int current = end;
@@ -189,10 +189,11 @@ void printPath(Vertex VertexArray[], int start, int end, int vertexCount)
 
 int main(int argc, char * argv[])
 {
+	int vertexCount;
 	int AdjacencyMatrix[MAX][MAX] = {};
 	Vertex VertexArray[MAX] = {};
-	int vertexCount = populateAdjMatrix(argc, AdjacencyMatrix, argv, VertexArray);
-	
+	vertexCount = populateAdjMatrix(argc, AdjacencyMatrix, argv, VertexArray);
+
 	#ifdef PRINTIT
 	printArray(AdjacencyMatrix,vertexCount);
 	#endif
@@ -209,7 +210,7 @@ int main(int argc, char * argv[])
 			start_idx = VertexArray[i].idx;
 	}
 
-	dijkstra(AdjacencyMatrix, VertexArray, vertexCount, start_idx);
+	dijkstra(AdjacencyMatrix, VertexArray, i, start_idx);
 	
 	#ifdef PRINTIT
 	printVertexArray(VertexArray, vertexCount);
@@ -224,7 +225,7 @@ int main(int argc, char * argv[])
 		if (strcmp(dest_label, VertexArray[i].label) == 0)
 			dest_idx = VertexArray[i].idx;
 	}
-	printf("\n%d\n", vertexCount);
+
 	printf("The path from %s to %s is ", VertexArray[start_idx].label, VertexArray[dest_idx].label);
 	printPath(VertexArray, start_idx, dest_idx, vertexCount);
 	printf(" and has a length of %d\n", VertexArray[dest_idx].distance);
