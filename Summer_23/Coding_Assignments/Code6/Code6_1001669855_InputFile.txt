@@ -4,3 +4,27 @@ Titan|4.7|245|85|Giovanola|S|Six Flags Over Texas|2001|48
 Shockwave|6.9|116|60|Schwarzkopf|S|Six Flags Over Texas|1978|42
 Mr. Freeze|4.0|218|70|Premier|S|Six Flags Over Texas|1998|54
 Runaway Mountain|5.2|65|35|Premier|S|Six Flags Over Texas|1996|48
+Pantheon|3.5|178|73|Intamin|W|Busch Gardens Williamsburg|2022|52
+Wildcat's Revenge|3.7|140|62|RMC|H|Hersheypark|2023|48
+Steel Vengance
+Milleniam Force
+Fury 325
+Magnum XL 200
+Raptor
+CopperHead Strike
+Manta
+Iron Rattler
+Dr. Diabolical's Cliffhanger
+Poltergeist
+Superman Krypton Coaster
+La Vibora
+Intimidator 305
+Incredicoaster
+Veloicoaster
+Expidition Everest
+Leviathan
+Kingda Ka
+Xcelerator
+Outlaw Run
+Time Traveler
+WildFire
