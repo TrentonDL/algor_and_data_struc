@@ -1,0 +1,14 @@
+typedef struct Coaster
+{
+    char *name;
+    float G_Force;
+    int max_height;
+    int max_speed;
+    char *manufacturer;
+    char owner;
+    char *park_location;
+    int year_opened;
+    int height_requirement;
+    struct Coaster *next_ptr;
+}
+COASTER;

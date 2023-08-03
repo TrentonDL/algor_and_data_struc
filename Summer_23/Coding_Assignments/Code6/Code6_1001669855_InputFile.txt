@@ -1,0 +1,6 @@
+New Texas Giant|4.2|153|65|RMC|S|Six Flags Over Texas|2009|48
+Iron Gwazi|3.9|207|76|RMC|W|Busch Gardens Tampa|2022|48
+Titan|4.7|245|85|Giovanola|S|Six Flags Over Texas|2001|48
+Shockwave|6.9|116|60|Schwarzkopf|S|Six Flags Over Texas|1978|42
+Mr. Freeze|4.0|218|70|Premier|S|Six Flags Over Texas|1998|54
+Runaway Mountain|5.2|65|35|Premier|S|Six Flags Over Texas|1996|48
