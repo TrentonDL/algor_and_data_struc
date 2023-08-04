@@ -8,7 +8,6 @@
 
 typedef struct 
 {
-    int idx;
     char label[6];
     int distance;
     int previous;
@@ -95,7 +94,6 @@ int populateAdjMatrix(int argc, int AdjacencyMatrix[MAX][MAX], char * argv[], Ve
 		
 		Token = strtok(buffer, ",");
 		strcpy(VertexArray[i].label, Token);
-		VertexArray[i].idx = i;
 		VertexArray[i].visited = 0;
 		VertexArray[i].distance = INT_MAX;
 		VertexArray[i].previous = -1;
@@ -207,7 +205,9 @@ int main(int argc, char * argv[])
 	for(i = 0; i < vertexCount; i++)
 	{
 		if(strcmp(starting_label, VertexArray[i].label) == 0)
-			start_idx = VertexArray[i].idx;
+			start_idx =	i;
+		else if(strcmp(starting_label, VertexArray[i].label) != 0 && i == vertexCount-1)
+			printf("Label not found...defaulting to Vertex %s\n", VertexArray[0].label);
 	}
 
 	dijkstra(AdjacencyMatrix, VertexArray, i, start_idx);
@@ -219,11 +219,12 @@ int main(int argc, char * argv[])
 	printf("What is the destination vertex? ");
 	scanf("%s", dest_label);
 
-	int dest_idx = 0;
-	for(i = 0; i < vertexCount; i++)
+	int j, dest_idx = 0;
+	
+	for(j = 0; j < vertexCount; j++)
 	{
-		if (strcmp(dest_label, VertexArray[i].label) == 0)
-			dest_idx = VertexArray[i].idx;
+		if (strcmp(dest_label, VertexArray[j].label) == 0)
+			dest_idx = j;
 	}
 
 	printf("The path from %s to %s is ", VertexArray[start_idx].label, VertexArray[dest_idx].label);
