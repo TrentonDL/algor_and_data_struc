@@ -2,29 +2,29 @@ New Texas Giant|4.2|153|65|RMC|S|Six Flags Over Texas|2009|48
 Iron Gwazi|3.9|207|76|RMC|W|Busch Gardens Tampa|2022|48
 Titan|4.7|245|85|Giovanola|S|Six Flags Over Texas|2001|48
 Shockwave|6.9|116|60|Schwarzkopf|S|Six Flags Over Texas|1978|42
-Mr. Freeze|4.0|218|70|Premier|S|Six Flags Over Texas|1998|54
-Runaway Mountain|5.2|65|35|Premier|S|Six Flags Over Texas|1996|48
-Pantheon|3.5|178|73|Intamin|W|Busch Gardens Williamsburg|2022|52
-Wildcat's Revenge|3.7|140|62|RMC|H|Hersheypark|2023|48
-Steel Vengance
-Milleniam Force
-Fury 325
-Magnum XL 200
-Raptor
-CopperHead Strike
-Manta
-Iron Rattler
-Dr. Diabolical's Cliffhanger
-Poltergeist
-Superman Krypton Coaster
-La Vibora
-Intimidator 305
-Incredicoaster
-Veloicoaster
-Expidition Everest
-Leviathan
-Kingda Ka
-Xcelerator
-Outlaw Run
-Time Traveler
-WildFire
+Mr. Freeze|4.0|218|70|Premier Rides|S|Six Flags Over Texas|1998|54
+Runaway Mountain|5.2|65|35|Premier Rides|S|Six Flags Over Texas|1996|48
+Pantheon|3.5|178|73|Intamin|W|Busch Gardens Williamsburg|2022|54
+Wildcat's Revenge|3.7|140|62|RMC|Y|Hersheypark|2023|48
+Steel Vengance|3.9|205|74|RMC|C|Cedar Point|2018|52
+Milleniam Force||308|93|Intamin|C|Cedar Point|2000|48
+Fury 325|4.0|325|95|Bolliger & Mabillard|C|Carrowinds|52
+Magnum XL 200|4.2|203|72|Arrow Dynamics|C|Cedar Point|1989|48
+Raptor|4.9|137|57|Bolliger & Mabillard|C|Cedar Point|1994|54
+CopperHead Strike|3.4|82|50|Mack Rides|C|Carrowinds|2019|52
+Manta|3.7|140|56|Bolliger & Mabillard|W|SeaWorld Orlando|2009|54
+Iron Rattler|3.6|179|70|RMC|S|Six Flags Fiesta Texas|2013|48
+Dr. Diabolical's Cliffhanger|3.8|150|60|Bolliger & Mabillard|S|Six Flags Fiesta Texas|2022|52
+Poltergeist|4.5|79|60|Premier Rides|S|Six Flags Fiesta Texas|1999|52
+Superman Krypton Coaster|3.8|168|70|Bolliger & Mabillard|S|Six Flags Fiesta Texas|2000|52
+La Vibora|2.7|60|32|Intamin|S|Six Flags Over Texas|1986|42
+Intimidator 305|4.5|305|90|Intamin|C|King's Dominion|2010|52
+Incredicoaster|4.3|121|55|Intamin|D|Disneyland|2001|48
+VelociCoaster|4.2|154|70|Intamin|U|Universal Islands of Adventure|2021|51
+Expidition Everest|3.0|199|50|Vekoma|D|DisneyWorld Animal Kingdom|2006|44
+Leviathan|4.5|306|92|Bolliger & Mabillard|C|Canada's Wonderland|2012|54
+Kingda Ka|5.0|456|128|Intamin|S|Six Flags Great Adventure|2005|55
+Xcelerator|4.0|203|82|Intamin|C|Knott's Berry Farm|2002|52
+Outlaw Run||108|68|RMC|H|Silver Dollar City|2013|48
+Time Traveler||100|50|Mack Rides|H|Silver Dollar City|2018|51
+WildFire||
