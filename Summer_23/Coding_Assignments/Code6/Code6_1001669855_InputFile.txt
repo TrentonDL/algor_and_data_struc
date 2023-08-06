@@ -25,6 +25,6 @@ Expidition Everest|3.0|199|50|Vekoma|D|DisneyWorld Animal Kingdom|2006|44
 Leviathan|4.5|306|92|Bolliger & Mabillard|C|Canada's Wonderland|2012|54
 Kingda Ka|5.0|456|128|Intamin|S|Six Flags Great Adventure|2005|55
 Xcelerator|4.0|203|82|Intamin|C|Knott's Berry Farm|2002|52
-Outlaw Run||108|68|RMC|H|Silver Dollar City|2013|48
-Time Traveler||100|50|Mack Rides|H|Silver Dollar City|2018|51
-WildFire||
+Outlaw Run|3.6|108|68|RMC|H|Silver Dollar City|2013|48
+Time Traveler|3.1|100|50|Mack Rides|H|Silver Dollar City|2018|51
+WildFire|3.6|120|66|Bolliger & Mabillard|H|Silver Dollar City|2001|52
