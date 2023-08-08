@@ -301,7 +301,7 @@ void AddNewCoaster(COASTER *Credits[])
     fgets(TempBuffer, 100-1, stdin);
     TempBuffer[strlen(TempBuffer)-1] = '\0';
     NewNode->manufacturer = malloc(strlen(TempBuffer)*sizeof(char)+1);
-    strcpy(NewNode->manufacturer,TempBuffer);
+    strcpy(NewNode->manufacturer, TempBuffer);
 
     printf("\n\nEnter %s's Owning Company as a char (S/C/U/H/Y/D) ", NewNode->name);
     scanf(" %c", &(NewNode->owner));
@@ -309,7 +309,149 @@ void AddNewCoaster(COASTER *Credits[])
 
     fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
 
-    printf("");
+    printf("\n\nEnter %s's Park Location ", NewNode->name);
+    fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
+    TempBuffer[strlen(TempBuffer)-1] = '\0';
+    NewNode->park_location = malloc(strlen(TempBuffer)*sizeof(char)+1);
+    strcpy(NewNode->park_location, TempBuffer);
 
-    
+    printf("\n\nEnter %s's year that it opened as an integer ", NewNode->name);
+    scanf("%d", &(NewNode->year_opened));
+
+    printf("\n\nEnter %s's Height requirment, in inches, as an integer ");
+    scanf("%d", &(NewNode->height_requirement));
+
+    AddNode(NewNode, Credits);
+}
+
+int ReadFileIntoHashTable(int argc, char *argv[], COASTER *Credits[])
+{
+    FILE *FH = NULL;
+	char FileLine[100] = {};
+	char *token = NULL;
+	int counter = 0;
+	int HashIndex = 0;
+	COASTER *NewNode;
+
+	if (argc > 1)
+	{
+		FH = fopen(argv[1], "r");
+
+		if (FH == NULL)
+		{
+			perror("Exiting ");
+			exit(0);
+		}
+
+        while(fgets(FileLine, sizeof(FileLine)-1, FH))
+        {
+            token = strtok(FileLine, "|");
+
+            NewNode = malloc(sizeof(COASTER));
+            NewNode->next_ptr = NULL;
+
+            NewNode->name = malloc(strlen(token)*sizeof(char)+1);
+            strcpy(NewNode->name, token);
+
+            token = strtok(NULL, "|");
+            NewNode->G_Force = atof(token);
+
+            token = strtok(NULL, "|");
+            NewNode->max_height = atoi(token);
+
+            token = strtok(NULL, "|");
+            NewNode->max_speed = atoi(token);
+
+            token = strtok(NULL, "|");
+            NewNode->manufacturer = malloc(strlen(token)*sizeof(char)+1);
+            strcpy(NewNode->manufacturer, token);
+
+            token = strtok(NULL, "|");
+            NewNode->owner = *token;
+
+            token = strtok(NULL, "|");
+            NewNode->park_location = malloc(strlen(token)*sizeof(char)+1);
+            strcpy(NewNode->park_location, token);
+
+            token = strtok(NULL, "|");
+            NewNode->year_opened = atoi(token);
+
+            token = strtok(NULL, "|");
+            NewNode->height_requirement = atoi(token);
+
+            AddNode(NewNode, Credits);
+            counter++;
+        }
+    }
+    else
+	{
+		printf("File must be provided on command line...exiting\n");
+		exit(0);
+	}
+
+    fclose(FH);
+
+    return counter;
+}
+
+int main(int argc, char *argv[]) 
+{
+	int MenuChoice = 0;
+	int counter = 0;
+    COASTER *Credits[HASHTABLESIZE] = {};
+
+    enum Menu {SHOWBYLETTER=1, SHOWBYNAME, COUNT, DISPLAY, ADD, DELETE, EXIT};
+
+    counter = ReadFileIntoHashTable(argc, argv, Credits);
+
+    do
+	{
+		printf("\n\nPokedex Menu\n\n"
+			   "1. Show all Coasters in your Credits for a given letter\n"
+			   "2. Look up Coaster by name\n"
+			   "3. How many Coasters are in your Credits?\n"
+			   "4. Display the Credits\n"
+			   "5. Add a new Coaster\n"
+			   "6. Delete a Coaster from your Credits\n"
+			   "7. Exit\n\n"
+			   "Enter menu choice ");
+	
+		scanf("%d", &MenuChoice);
+		printf("\n\n");
+
+        switch (MenuChoice)
+		{	
+			case SHOWBYLETTER:
+				ShowByLetter(Credits);
+				break;
+			case SHOWBYNAME:
+				ShowByName(Credits);
+				break;
+			case COUNT:
+				printf("Your Credits contains %d Coasters\n", counter); 
+				break;
+ 			case DISPLAY:
+				DisplayHashTable(Credits);
+				break;
+			case ADD:
+				AddNewPokemon(Credits);
+				counter++;
+				break;
+			case DELETE:
+				if (DeleteNode(Credits))
+				{
+					counter--;
+				}
+				break;
+			case EXIT:
+				break;
+			default : 
+				printf("Invalid menu choice\n\n"); 
+		}
+	}
+	while (MenuChoice != EXIT);
+
+    FreeDynamicMemory(Credits);
+
+    return 0;
 }
