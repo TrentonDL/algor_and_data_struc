@@ -7,8 +7,8 @@ Runaway Mountain|5.2|65|35|Premier Rides|S|Six Flags Over Texas|1996|48
 Pantheon|3.5|178|73|Intamin|W|Busch Gardens Williamsburg|2022|54
 Wildcat's Revenge|3.7|140|62|RMC|Y|Hersheypark|2023|48
 Steel Vengance|3.9|205|74|RMC|C|Cedar Point|2018|52
-Milleniam Force||308|93|Intamin|C|Cedar Point|2000|48
-Fury 325|4.0|325|95|Bolliger & Mabillard|C|Carrowinds|52
+Milleniam Force|4.5|308|93|Intamin|C|Cedar Point|2000|48
+Fury 325|4.0|325|95|Bolliger & Mabillard|C|Carrowinds|2015|52
 Magnum XL 200|4.2|203|72|Arrow Dynamics|C|Cedar Point|1989|48
 Raptor|4.9|137|57|Bolliger & Mabillard|C|Cedar Point|1994|54
 CopperHead Strike|3.4|82|50|Mack Rides|C|Carrowinds|2019|52
