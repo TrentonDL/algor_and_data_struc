@@ -27,16 +27,14 @@ int CalculateHashIndex(char *HashValue)
 {
     int string_len = strlen(HashValue);
 
-    if(HashValue[string_len-1] == '\n');
-        HashValue[string_len-1] = '\0';
-    
+
     int i, sum = 0;
 
     for(i = 0; i<string_len; i++)
     {
         sum += HashValue[i];
     }
-    //printf("%d\n", sum);
+    
     return sum % HASHTABLESIZE;
 }
 
@@ -92,12 +90,14 @@ void FreeDynamicMemory(COASTER *Credits[])
 int DeleteNode(COASTER *Credits[])
 {
     char LookupName[100] = {};
+    char buffer[100] = {};
     int result = 0;
 
     printf("Enter a name of a Coaster to delete from your Credits ");
-    fgets(LookupName, 100-1, stdin);
+    fgets(buffer, sizeof(buffer)-1, stdin);
     fgets(LookupName, sizeof(LookupName)-1, stdin);
-
+    LookupName[strlen(LookupName)-1] = '\0';
+    
     int HashIndex = CalculateHashIndex(LookupName);
 
     COASTER *TempPtr = Credits[HashIndex], *PrevPtr = NULL;
@@ -197,12 +197,14 @@ void ShowByName(COASTER *Credits[])
 {
     COASTER *TempPtr = NULL;
     char LookupName[100] = {};
+    char buffer[100] = {};
     char gforce[10]= {};
     int FoundIt = 0;
 
     printf("\n\nEnter Coaster's name ");
-    fgets(LookupName, 100-1, stdin);
+    fgets(buffer, 100-1, stdin);
     fgets(LookupName, sizeof(LookupName)-1, stdin);
+    LookupName[strlen(LookupName)-1] = '\0';
     #if TIMING
 	clock_t start, end;
 	start = clock();
@@ -223,13 +225,13 @@ void ShowByName(COASTER *Credits[])
                     #endif
                     
                     FoundIt = 1;
-                    printf("\n\n%s\n", TempPtr->name);
+                    printf("\n\nCoaster Name\t\t\t%s\n", TempPtr->name);
 
-                    printf("G-Force\t\t%.2f G's\n", TempPtr->G_Force);
-                    printf("Max Height\t\t%d",TempPtr->max_height);
-                    printf("Max Speed\t\t%d", TempPtr->max_speed);
-                    printf("Manufacturer\t\t%s", TempPtr->manufacturer);
-                    printf("Owning Company\t\t");
+                    printf("G-Force\t\t\t\t%.2f G's\n", TempPtr->G_Force);
+                    printf("Max Height\t\t\t%d\n",TempPtr->max_height);
+                    printf("Max Speed\t\t\t%d\n", TempPtr->max_speed);
+                    printf("Manufacturer\t\t\t%s\n", TempPtr->manufacturer);
+                    printf("Owning Company\t\t\t");
                     switch (TempPtr->owner)
                     {
                     case 'S':
@@ -258,8 +260,8 @@ void ShowByName(COASTER *Credits[])
                         break;
                     }
                     printf("\n");
-                    printf("Park Location\t\t%s\n", TempPtr->park_location);
-                    printf("Year Opened\t\t%d\n", TempPtr->year_opened);
+                    printf("Park Location\t\t\t%s\n", TempPtr->park_location);
+                    printf("Year Opened\t\t\t%d\n", TempPtr->year_opened);
                     printf("Height Requirement\t\t%d\n", TempPtr->height_requirement);
                 }
                 TempPtr = TempPtr->next_ptr;
@@ -275,13 +277,15 @@ void AddNewCoaster(COASTER *Credits[])
 {
     int HashIndex = 0;
     COASTER *NewNode;
+    char buffer[100] = {};
     char TempBuffer[100] = {};
 
     NewNode = malloc(sizeof(COASTER));
     NewNode->next_ptr = NULL;
 
     printf("\n\nEnter new Coaster's name ");
-    fgets(TempBuffer, 100-1, stdin);
+    fgets(buffer, sizeof(buffer)-1, stdin);
+    fgets(TempBuffer,sizeof(TempBuffer)-1, stdin);
     TempBuffer[strlen(TempBuffer)-1] = '\0';
     NewNode->name = malloc(strlen(TempBuffer)*sizeof(char)+1);
     strcpy(NewNode->name, TempBuffer);
@@ -295,10 +299,9 @@ void AddNewCoaster(COASTER *Credits[])
     printf("\n\nEnter %s's Max Speed as an integer ", NewNode->name);
     scanf("%d", &(NewNode->max_speed));
 
-    fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
-
     printf("\n\nEnter %s's Manufacturer ", NewNode->name);
-    fgets(TempBuffer, 100-1, stdin);
+    fgets(buffer, sizeof(buffer)-1, stdin);
+    fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
     TempBuffer[strlen(TempBuffer)-1] = '\0';
     NewNode->manufacturer = malloc(strlen(TempBuffer)*sizeof(char)+1);
     strcpy(NewNode->manufacturer, TempBuffer);
@@ -307,9 +310,8 @@ void AddNewCoaster(COASTER *Credits[])
     scanf(" %c", &(NewNode->owner));
     NewNode->owner = toupper(NewNode->owner);
 
-    fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
-
     printf("\n\nEnter %s's Park Location ", NewNode->name);
+    fgets(buffer, sizeof(buffer)-1, stdin);
     fgets(TempBuffer, sizeof(TempBuffer)-1, stdin);
     TempBuffer[strlen(TempBuffer)-1] = '\0';
     NewNode->park_location = malloc(strlen(TempBuffer)*sizeof(char)+1);
@@ -318,7 +320,7 @@ void AddNewCoaster(COASTER *Credits[])
     printf("\n\nEnter %s's year that it opened as an integer ", NewNode->name);
     scanf("%d", &(NewNode->year_opened));
 
-    printf("\n\nEnter %s's Height requirment, in inches, as an integer ");
+    printf("\n\nEnter %s's Height requirment, in inches, as an integer ", NewNode->name);
     scanf("%d", &(NewNode->height_requirement));
 
     AddNode(NewNode, Credits);
@@ -350,7 +352,7 @@ int ReadFileIntoHashTable(int argc, char *argv[], COASTER *Credits[])
             NewNode = malloc(sizeof(COASTER));
             NewNode->next_ptr = NULL;
 
-            NewNode->name = malloc(strlen(token)*sizeof(char)+1);
+            NewNode->name = malloc((strlen(token)+1)*sizeof(char)+1);
             strcpy(NewNode->name, token);
 
             token = strtok(NULL, "|");
@@ -406,7 +408,7 @@ int main(int argc, char *argv[])
 
     do
 	{
-		printf("\n\nPokedex Menu\n\n"
+		printf("\n\nCoaster Menu\n\n"
 			   "1. Show all Coasters in your Credits for a given letter\n"
 			   "2. Look up Coaster by name\n"
 			   "3. How many Coasters are in your Credits?\n"
@@ -434,7 +436,7 @@ int main(int argc, char *argv[])
 				DisplayHashTable(Credits);
 				break;
 			case ADD:
-				AddNewPokemon(Credits);
+				AddNewCoaster(Credits);
 				counter++;
 				break;
 			case DELETE:
