@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <time.h>
  
-#define HASHTABLESIZE 30
+#define HASHTABLESIZE 1
 
 typedef struct Coaster
 {
@@ -97,7 +97,7 @@ int DeleteNode(COASTER *Credits[])
     fgets(buffer, sizeof(buffer)-1, stdin);
     fgets(LookupName, sizeof(LookupName)-1, stdin);
     LookupName[strlen(LookupName)-1] = '\0';
-    
+
     int HashIndex = CalculateHashIndex(LookupName);
 
     COASTER *TempPtr = Credits[HashIndex], *PrevPtr = NULL;
