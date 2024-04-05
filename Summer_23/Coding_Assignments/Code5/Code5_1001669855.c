@@ -188,8 +188,8 @@ void printPath(Vertex VertexArray[MAX], int start, int end, int vertexCount)
 int main(int argc, char * argv[])
 {
 	int vertexCount;
-	int AdjacencyMatrix[MAX][MAX] = {};
-	Vertex VertexArray[MAX] = {};
+	int AdjacencyMatrix[MAX][MAX] = NULL;
+	Vertex VertexArray[MAX] = NULL;
 	vertexCount = populateAdjMatrix(argc, AdjacencyMatrix, argv, VertexArray);
 
 	#ifdef PRINTIT
